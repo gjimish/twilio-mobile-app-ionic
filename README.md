@@ -11,14 +11,17 @@ npm run dev
 
 ### Test on Android / ios locally
 #### Prerequisites
+```javascript
 npm install -g @ionic/cli
 ionic integrations enable capacitor
 npm run build  TODO: this fails on well known script for windows
 ionic capacitor add android
-
+```
 #### Test
+```javascript
 ionic capacitor copy android
 npx cap open android
+```
 If you have a virtual device set up, you should be able to hit the play button, if not, see the urls below
 
 ## Android Studio setup
