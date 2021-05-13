@@ -1,0 +1,51 @@
+.message {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: fit-content;
+  justify-content: space-between;
+}
+
+.message > section {
+  display: flex;
+  flex-direction: row;
+  background-color: #f3f3f5;
+  font-size: medium;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 10px;
+  margin-left: 35px;
+  margin-right: auto;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.message > section > div > p {
+  margin: 5px;
+}
+
+.message__date {
+  color: gray;
+  position: absolute;
+  font-size: 8px;
+  bottom: 0px;
+  left: 0;
+  margin-top: 10px;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.message__date__outbound {
+  right: 0;
+  left: auto;
+}
+
+.message__sender {
+  margin-left: auto;
+  margin-right: 15px;
+}
+
+.message__sender > section {
+  background-color: var(--ion-color-primary);
+  color: white;
+}

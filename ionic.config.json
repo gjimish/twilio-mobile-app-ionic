@@ -1,0 +1,7 @@
+{
+  "name": "PWA-Twilio",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

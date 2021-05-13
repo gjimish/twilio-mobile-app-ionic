@@ -1,0 +1,97 @@
+ion-header,
+ion-toolbar {
+  border-bottom: none !important;
+  --border-color: white;
+}
+
+ion-title {
+  --color: rgb(48, 48, 58);
+}
+
+ion-tab-bar {
+  border-top: none;
+}
+
+ion-tab-button {
+  --color: rgb(211, 211, 211);
+  height: 2rem;
+}
+
+.tab-selected,
+ion-icon.search {
+  color: rgb(88, 88, 88) !important;
+}
+
+.avatar {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.online {
+  height: 15px;
+  width: 15px;
+  border-radius: 500px;
+  border: 3px solid white;
+  background-color: green;
+  z-index: 9999;
+  position: absolute;
+  margin-left: 1.5rem;
+  margin-top: 1.2rem;
+}
+
+.contact-details {
+  margin-top: 0rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.stats {
+  margin-top: -1rem;
+  margin-right: 0.5rem;
+}
+
+.last-online {
+  color: rgb(190, 190, 190);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.stats ion-badge {
+  margin: 0 !important;
+  margin-top: -3rem !important;
+  border-radius: 2px !important;
+}
+
+.contact-details h1 {
+  font-size: 1.2rem;
+}
+
+.contact-details p {
+  font-size: 0.8rem;
+}
+
+.message-item {
+  --padding-top: 0.75rem;
+  --padding-bottom: 0.75rem;
+}
+
+.profile-avatar {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 500px !important;
+}
+
+.profile-name {
+  color: #c8c8c8;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  margin-left: 0.5rem;
+}
+
+.add-fab {
+  opacity: 0.7;
+}
+
+/*  */

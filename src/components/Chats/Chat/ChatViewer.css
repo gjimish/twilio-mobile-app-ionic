@@ -1,0 +1,22 @@
+.chat__viewer {
+  flex: 1;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.chat__viewer::-webkit-scrollbar {
+  display: none;
+}
+
+.message__skeleton {
+  width: 70%;
+  height: 30px;
+  border-radius: 20px;
+  margin: 10px;
+}
+
+.message__skeleton__sender {
+  margin-left: auto;
+  margin-right: 10px;
+}
