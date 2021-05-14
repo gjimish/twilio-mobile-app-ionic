@@ -19,9 +19,6 @@ const Routes = () => {
           <div className="d-flex align-items-center flex-column px-4">
             <ClimbingBoxLoader color={'#3c44b1'} loading={true} />
           </div>
-          <div className="text-muted font-size-xl text-center pt-3">
-            Loading....
-          </div>
         </div>
       </>
     );

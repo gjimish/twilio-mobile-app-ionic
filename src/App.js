@@ -32,19 +32,17 @@ import './theme/custom-variables.css';
 
 import { environment } from './environments/environment';
 
-// Capacitor dependencies
-const { PusherBeamNotification } = Plugins;
 // TODO Do we really need axios here?
 axiosRetry(axios, {
   retries: 5,
   retryDelay: axiosRetry.exponentialDelay
 });
 
-
 const App = () => {
   const store = configureStore();
   const { PushNotifications } = Plugins;
-  console.log("APP IS RUNNING")
+  // Capacitor dependencies
+  const { PusherBeamNotification } = Plugins;
   if (store.getState().auth.user) {
     ReactGA.initialize('UA-54758380-3');
     ReactGA.set({
@@ -65,9 +63,9 @@ const App = () => {
     // check platform is native
     if (Capacitor.isNative) {
       // initialize the pusher beam notification
-      PusherBeamNotification.clientInit({
-        instanceId: environment.PUSHER_BEAM_INSTANCE_ID
-      });
+      // PusherBeamNotification.clientInit({
+      //  instanceId: environment.PUSHER_BEAM_INSTANCE_ID
+      //});
       // Method called when tapping on a notification
       PushNotifications.addListener(
         'pushNotificationActionPerformed',

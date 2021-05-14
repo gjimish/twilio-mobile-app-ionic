@@ -11,7 +11,7 @@ const ChatsRowItem = (props) => {
       lines="none"
       className="message-item"
       onClick={() => {
-        history.push(`/chat/${props.message.contact_id}`);
+        history.push(`/chat/${props.message.recent_message.contact_id}`);
       }}>
       <IonIcon className="avatar" icon={personCircleOutline} />
       {<div className="online"></div>}
@@ -20,12 +20,12 @@ const ChatsRowItem = (props) => {
         <h1>
           {props.message.first_name} {props.message.last_name}
         </h1>
-        <p>{props.message.body}</p>
+        <p>{props.message.recent_message.body}</p>
       </IonLabel>
 
       <div className="stats">
         <p className="last-online">
-          {moment(props.message.updated_at).calendar(null, {
+          {moment(props.message.recent_message.updated_at).calendar(null, {
             sameDay: 'h:mm A',
             lastDay: '[Yesterday]',
             lastWeek: 'dddd',

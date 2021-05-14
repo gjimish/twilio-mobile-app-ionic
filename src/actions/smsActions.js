@@ -22,6 +22,25 @@ export const fetchChatHistory = (id) => {
   return axios.post('/api/fetch-chat', body, config);
 };
 
+// Get Recent conversations
+export const fetchRecentConversations = (props) => {
+  setBasePath();
+  setAuthToken();
+  const { filterMode, perPage, pageNum, newestFirst } = props.queryKey[1];
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  // Request body
+  return axios.get(
+    `/api/recent-conversations?mode=${filterMode}&per_page=${perPage}&page=${pageNum}&latest_to_oldest=${newestFirst}`,
+    config
+  );
+};
+
 export const sendSMS = (data) => {
   setBasePath();
   setAuthToken();

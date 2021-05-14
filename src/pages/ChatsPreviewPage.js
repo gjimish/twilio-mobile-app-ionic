@@ -14,34 +14,36 @@ import ChatsRowItem from '../components/Chats/ChatsRowItem';
 import ChatsHeader from '../components/Chats/ChatsHeader';
 import PullToRefresh from '../components/PullToRefresh';
 import ItemRowSkeleton from '../components/ItemRowSkeletons';
-import { getDashboardData } from '../actions/dashboardActions';
+import { fetchRecentConversations } from '../actions/smsActions';
 
 const ChatsPage = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { data: dashboardData, refetch: refetchChats } = useQuery(
-    ['dashboard'],
-    getDashboardData
+    [
+      'recentConversations',
+      { filterMode: 'unreplied', perPage: 20, pageNum: 1, newestFirst: true }
+    ],
+    fetchRecentConversations
   );
 
   const handleSearchInputChange = (e) => {
     const value = e.target.value;
     if (value) {
       const recordsFiltered = matchSorter(
-        dashboardData?.data?.messages ?? [],
+        dashboardData?.data?.contacts ?? [],
         e.target.value,
         {
-          keys: ['first_name', 'last_name', 'send_from']
+          keys: ['first_name', 'last_name', 'recent_message.send_from']
         }
       );
       setMessages(recordsFiltered);
     } else {
-      setMessages(dashboardData?.data?.messages ?? []);
+      setMessages(dashboardData?.data?.contacts ?? []);
     }
   };
 
   const handleRefresh = async (e) => {
-    // Sync with Zoho here
     return new Promise((resolve) => {
       refetchChats().then(() => {
         resolve();
@@ -50,8 +52,8 @@ const ChatsPage = () => {
   };
 
   useEffect(() => {
-    if (dashboardData?.data?.messages) {
-      setMessages(dashboardData.data.messages);
+    if (dashboardData?.data?.contacts) {
+      setMessages(dashboardData.data.contacts);
     }
   }, [dashboardData]);
 
@@ -79,7 +81,7 @@ const ChatsPage = () => {
           <IonList>
             {messages.map((message) => {
               return (
-                <ChatsRowItem message={message} key={message.contact_id} />
+                <ChatsRowItem message={message} key={message.recent_message.contact_id} />
               );
             })}
           </IonList>
