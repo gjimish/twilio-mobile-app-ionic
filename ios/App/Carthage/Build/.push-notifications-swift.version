@@ -1,0 +1,11 @@
+{
+  "commitish" : "3.0.4",
+  "iOS" : [
+    {
+      "hash" : "1b373193fd4e04aa80652e218b27b19869591baa31e532d2b8b9594ecfcf5a29",
+      "name" : "PushNotifications",
+      "linking" : "dynamic",
+      "swiftToolchainVersion" : "5.3.1 (swiftlang-1200.0.41 clang-1200.0.32.8)"
+    }
+  ]
+}

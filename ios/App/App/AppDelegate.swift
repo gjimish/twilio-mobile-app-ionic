@@ -1,16 +1,37 @@
 import UIKit
 import Capacitor
+import PushNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
   var window: UIWindow?
+  let beamsClient = PushNotifications.shared
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    self.beamsClient.start(instanceId: "4b5e942b-6a5e-4fb4-ac7f-de443b71c10e")
+    self.beamsClient.registerForRemoteNotifications()
+    UNUserNotificationCenter.current().delegate = self
     // Override point for customization after application launch.
     return true
   }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        self.beamsClient.registerDeviceToken(deviceToken)
+    }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        self.beamsClient.handleNotification(userInfo: userInfo)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        // you can customize the notification presentation options. Below code will show notification banner as well as play a sound. If you want to add a badge too, add .badge in the array.
+        completionHandler([.alert,.sound])
+    }
+
 
   func applicationWillResignActive(_ application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -57,18 +78,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       NotificationCenter.default.post(CAPBridge.statusBarTappedNotification)
     }
   }
-
-  #if USE_PUSH
-
-  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    NotificationCenter.default.post(name: Notification.Name(CAPNotifications.DidRegisterForRemoteNotificationsWithDeviceToken.name()), object: deviceToken)
-  }
-
-  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-    NotificationCenter.default.post(name: Notification.Name(CAPNotifications.DidFailToRegisterForRemoteNotificationsWithError.name()), object: error)
-  }
-
-#endif
 
 }
 

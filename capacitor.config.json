@@ -9,6 +9,9 @@
       "launchShowDuration": 2000
     }
   },
+  "server": {
+    "cleartext": true
+  },
   "cordova": {},
   "linuxAndroidStudioPath": "/home/ajay/android-studio/bin/studio.sh"
 }
