@@ -68,6 +68,12 @@ const App = () => {
       PusherBeamNotification.clientInit({
         instanceId: environment.PUSHER_BEAM_INSTANCE_ID
       });
+      let token = localStorage.getItem('token');
+      // Initialize user for push notification
+      PusherBeamNotification.addUser({
+        userId: store.getState().auth.user.id,
+        token
+      });
       PushNotifications.requestPermission();
       // Method called when tapping on a notification
       PushNotifications.addListener(
