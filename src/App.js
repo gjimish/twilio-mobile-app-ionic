@@ -8,7 +8,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { Plugins, Capacitor } from '@capacitor/core';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
-import { useHistory } from 'react-router-dom';
 
 import Routes from './Routes';
 /* Core CSS required for Ionic components to work properly */
@@ -41,7 +40,6 @@ axiosRetry(axios, {
 
 const App = () => {
   const store = configureStore();
-  const history = useHistory();
   const { PushNotifications } = Plugins;
   // Capacitor dependencies
   const { PusherBeamNotification } = Plugins;
@@ -68,30 +66,7 @@ const App = () => {
       PusherBeamNotification.clientInit({
         instanceId: environment.PUSHER_BEAM_INSTANCE_ID
       });
-      let token = localStorage.getItem('token');
-      // Initialize user for push notification
-      PusherBeamNotification.addUser({
-        userId: store.getState().auth.user.id,
-        token
-      });
       PushNotifications.requestPermission();
-      // Method called when tapping on a notification
-      PushNotifications.addListener(
-        'pushNotificationActionPerformed',
-        (notificationPayload) => {
-          const notificationData =
-            notificationPayload.notification &&
-            notificationPayload.notification.data
-              ? notificationPayload.notification.data
-              : null;
-          if (notificationData && notificationData.deep_link) {
-            const deepLink = notificationData.deep_link;
-            if (deepLink && deepLink !== '') {
-              history.push(`/${deepLink}`);
-            }
-          }
-        }
-      );
     }
   });
 

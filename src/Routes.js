@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import Tabs from './components/Tabs';
 import ChatPage from './pages/ChatPage';
 import ContactPage from './pages/ContactPage';
+import PushNotificationWrapper from './components/PushNotificationWrapper';
 
 const Routes = () => {
   const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -30,6 +31,7 @@ const Routes = () => {
         <IonRouterOutlet id="main">
           {isAuthenticated ? (
             <>
+              <PushNotificationWrapper />
               <Switch>
                 <Redirect from="/Login" to="/Dashboard/chat" />
                 <Redirect from="/" exact to="/Dashboard/chat" />

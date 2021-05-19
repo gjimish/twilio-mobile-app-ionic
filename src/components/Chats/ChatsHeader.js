@@ -11,6 +11,9 @@ import { ellipsisVerticalOutline } from 'ionicons/icons';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { logout } from '../../actions/authActions';
+import { Plugins } from '@capacitor/core';
+
+const { PusherBeamNotification } = Plugins;
 
 const ChatsHeader = (props) => {
   const [present] = useIonActionSheet();
@@ -30,6 +33,7 @@ const ChatsHeader = (props) => {
     ]
   };
   const logout = () => {
+    PusherBeamNotification.clearState();
     props.logout();
   };
   return (
