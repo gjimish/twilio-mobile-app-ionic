@@ -8,6 +8,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { Plugins, Capacitor } from '@capacitor/core';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
+import { useHistory } from 'react-router-dom';
 
 import Routes from './Routes';
 /* Core CSS required for Ionic components to work properly */
@@ -40,6 +41,7 @@ axiosRetry(axios, {
 
 const App = () => {
   const store = configureStore();
+  const history = useHistory();
   const { PushNotifications } = Plugins;
   // Capacitor dependencies
   const { PusherBeamNotification } = Plugins;
@@ -63,9 +65,10 @@ const App = () => {
     // check platform is native
     if (Capacitor.isNative) {
       // initialize the pusher beam notification
-      // PusherBeamNotification.clientInit({
-      //  instanceId: environment.PUSHER_BEAM_INSTANCE_ID
-      //});
+      PusherBeamNotification.clientInit({
+        instanceId: environment.PUSHER_BEAM_INSTANCE_ID
+      });
+      PushNotifications.requestPermission();
       // Method called when tapping on a notification
       PushNotifications.addListener(
         'pushNotificationActionPerformed',
@@ -75,15 +78,10 @@ const App = () => {
             notificationPayload.notification.data
               ? notificationPayload.notification.data
               : null;
-          const dataPayload =
-            notificationData && notificationData.notification
-              ? JSON.parse(notificationData.notification)
-              : null;
-          if (dataPayload && dataPayload.deep_link) {
-            const deepLink = dataPayload.deep_link;
+          if (notificationData && notificationData.deep_link) {
+            const deepLink = notificationData.deep_link;
             if (deepLink && deepLink !== '') {
-              const deepLinkPath = new URL(deepLink).pathname;
-              window.location = deepLinkPath;
+              history.push(`/${deepLink}`);
             }
           }
         }

@@ -2,12 +2,22 @@ import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { matchSorter } from 'match-sorter';
 import {
+  IonButton,
+  IonCol,
   IonContent,
   IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
   IonList,
   IonPage,
+  IonPopover,
+  IonRow,
   IonSearchbar,
+  IonSegment,
+  IonSegmentButton,
   IonTitle,
+  IonToggle,
   IonToolbar
 } from '@ionic/react';
 import ChatsRowItem from '../components/Chats/ChatsRowItem';
@@ -15,15 +25,24 @@ import ChatsHeader from '../components/Chats/ChatsHeader';
 import PullToRefresh from '../components/PullToRefresh';
 import ItemRowSkeleton from '../components/ItemRowSkeletons';
 import { fetchRecentConversations } from '../actions/smsActions';
+import { filterOutline } from 'ionicons/icons';
+import './Popover.css';
 
 const ChatsPage = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [popoverState, setShowPopover] = useState({
+    showPopover: false,
+    event: undefined
+  });
+  const [conversationsFilter, setConversationsFilter] = useState({
+    filterMode: 'unreplied',
+    perPage: 20,
+    pageNum: 1,
+    newestFirst: true
+  });
   const { data: dashboardData, refetch: refetchChats } = useQuery(
-    [
-      'recentConversations',
-      { filterMode: 'unreplied', perPage: 20, pageNum: 1, newestFirst: true }
-    ],
+    ['conversationsQuery', conversationsFilter],
     fetchRecentConversations
   );
 
@@ -74,14 +93,73 @@ const ChatsPage = () => {
             <IonTitle size="large">Messages</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonSearchbar onIonChange={handleSearchInputChange}></IonSearchbar>
+        <IonRow className="ion-align-items-center">
+          <IonCol>
+            <IonSearchbar onIonChange={handleSearchInputChange}></IonSearchbar>
+          </IonCol>
+          <IonButton
+            color="light"
+            onClick={(e) => {
+              setShowPopover({ showPopover: true, event: e });
+            }}
+            style={{
+              '--border-radius': '999px',
+              paddingRight: '10px'
+            }}>
+            <IonIcon icon={filterOutline} color="primary" slot="icon-only" />
+          </IonButton>
+        </IonRow>
+        <IonPopover
+          cssClass="contact-popover"
+          event={popoverState.event}
+          isOpen={popoverState.showPopover}
+          onDidDismiss={() =>
+            setShowPopover({ showPopover: false, event: undefined })
+          }>
+          <IonItem lines="none">
+            <IonSegment
+              value={conversationsFilter.filterMode}
+              onIonChange={(e) => {
+                setConversationsFilter((prevState) => ({
+                  ...prevState,
+                  filterMode: e.detail.value
+                }));
+              }}>
+              <IonSegmentButton value="most-recently-touched">
+                <IonLabel>no filter</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="unreplied">
+                <IonLabel>reply</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="follow-up">
+                <IonLabel>follow up</IonLabel>
+              </IonSegmentButton>
+            </IonSegment>
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Show newest first</IonLabel>
+            <IonToggle
+              checked={conversationsFilter.newestFirst}
+              name="newestFirst"
+              onIonChange={(e) => {
+                setConversationsFilter((prevState) => ({
+                  ...prevState,
+                  newestFirst: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+        </IonPopover>
         {isLoading ? (
           <ItemRowSkeleton quantity={9} height={20} />
         ) : (
           <IonList>
             {messages.map((message) => {
               return (
-                <ChatsRowItem message={message} key={message.recent_message.contact_id} />
+                <ChatsRowItem
+                  message={message}
+                  key={message.recent_message.contact_id}
+                />
               );
             })}
           </IonList>

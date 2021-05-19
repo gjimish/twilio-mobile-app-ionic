@@ -68,7 +68,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "start": "node server.js",
-    "build": "react-scripts build && node update-sw.js && ./set-up-well-known.sh",
+    "build": "react-scripts build && node update-sw.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "./node_modules/.bin/eslint --fix --ignore-path .gitignore .",

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "464270970899",
+    "project_id": "twilio-zoho",
+    "storage_bucket": "twilio-zoho.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464270970899:android:cd4921a1a4dbfeb5c5afe6",
+        "android_client_info": {
+          "package_name": "io.pwa.twillo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464270970899-4v5em4k2jm3c719jqauu7a23ltq3c3m6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0DYpkggMiSSYdJuqPGB8lXdZ-T6gX2Ek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464270970899-4v5em4k2jm3c719jqauu7a23ltq3c3m6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

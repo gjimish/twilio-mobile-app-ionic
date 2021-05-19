@@ -19,6 +19,7 @@ ionic capacitor add android
 ```
 #### Test
 ```javascript
+npx cap sync
 ionic capacitor copy android
 npx cap open android
 ```

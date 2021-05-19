@@ -89,7 +89,6 @@ const ChatInput = (props) => {
     <IonRow
       style={{
         padding: '10px 20px',
-        //borderTop: '1px solid lightgray',
         '--border-radius': '20px',
         '--background': '#f5f5f5'
       }}>
@@ -97,7 +96,6 @@ const ChatInput = (props) => {
         <div
           style={{
             padding: '10px 20px',
-            //borderTop: '1px solid lightgray',
             borderRadius: '20px',
             background: '#f5f5f5'
           }}>

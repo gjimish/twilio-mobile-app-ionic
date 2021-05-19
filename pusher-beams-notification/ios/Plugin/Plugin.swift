@@ -7,11 +7,12 @@ import PushNotifications
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(PusherBeamNotification)
-public class PusherBeamNotification: CAPPlugin {
+public class PusherBeamNotification: CAPPlugin, UNUserNotificationCenterDelegate {
     let beamsClient = PushNotifications.shared
 
     @objc func clientInit(_ call: CAPPluginCall) {
         let value = call.getString("instanceId") ?? ""
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(notification:)), name: Notification.Name("NotificationAction"), object: nil)
         print("clientInit is called", value)
     }
     
@@ -45,5 +46,11 @@ public class PusherBeamNotification: CAPPlugin {
         try? self.beamsClient.clearAllState {
             print("Cleared all state!")
         }
+    }
+    
+    @objc func methodOfReceivedNotification(notification: Notification) {
+        guard let dictAPS = notification.userInfo?["data"] as? NSDictionary else { return }
+        let plugin: CAPPlugin = (self.bridge?.getOrLoadPlugin(pluginName: "PushNotifications"))!
+        plugin.notifyListeners("pushNotificationActionPerformed", data: (dictAPS as! [String : Any]), retainUntilConsumed: false)
     }
 }

@@ -7,7 +7,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
   var window: UIWindow?
   let beamsClient = PushNotifications.shared
-
+    
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     self.beamsClient.start(instanceId: "4b5e942b-6a5e-4fb4-ac7f-de443b71c10e")
@@ -20,16 +20,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         self.beamsClient.registerDeviceToken(deviceToken)
     }
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         self.beamsClient.handleNotification(userInfo: userInfo)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let userInfo = notification.request.content.userInfo
-        // you can customize the notification presentation options. Below code will show notification banner as well as play a sound. If you want to add a badge too, add .badge in the array.
         completionHandler([.alert,.sound])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                    didReceive response: UNNotificationResponse,
+                                    withCompletionHandler completionHandler: @escaping () -> Void) {
+        let originalNotificationRequest = response.notification.request
+        let notification = makePushNotificationRequestJSObject(originalNotificationRequest)
+        NotificationCenter.default.post(name: Notification.Name("NotificationAction"), object: nil, userInfo: notification)
+        completionHandler();
+    }
+
+    /**
+     * Turn a UNNotificationRequest into a JSObject to return back to the client.
+     */
+    func makePushNotificationRequestJSObject(_ request: UNNotificationRequest) -> [String: Any] {
+      let content = request.content
+      return [
+        "id": request.identifier,
+        "title": content.title,
+        "subtitle": content.subtitle,
+        "body": content.body,
+        "badge": content.badge ?? 1,
+        "data": content.userInfo["aps"]!,
+      ]
     }
 
 
@@ -78,6 +101,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       NotificationCenter.default.post(CAPBridge.statusBarTappedNotification)
     }
   }
-
 }
-
