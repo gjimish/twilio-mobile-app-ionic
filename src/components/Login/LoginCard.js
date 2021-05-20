@@ -39,9 +39,15 @@ const LoginCard = (props) => {
         ) : (
           <div>
             <IonButton expand="block" size="large" onClick={onDoAuth}>
-              Zoho CRM Login
+              Login
               <IonIcon icon={logInOutline} slot="end" />
             </IonButton>
+            <p
+              style={{
+                textAlign: 'center'
+              }}>
+              Login with your Zoho CRM account
+            </p>
           </div>
         )}
         {showSync && (

@@ -20,6 +20,7 @@ import {
   IonRow
 } from '@ionic/react';
 import LoginCard from '../components/Login/LoginCard';
+import logo from '../assets/logo.png';
 
 function LoginPage({
   isAuthenticated,
@@ -176,9 +177,15 @@ function LoginPage({
         <IonGrid style={{ height: '100%' }}>
           <IonRow
             style={{
-              height: '100%',
+              height: '30%',
               justifyContent: 'center',
               alignItems: 'center'
+            }}>
+            <img src={logo} alt="Logo" style={{ width: '200px' }} />
+          </IonRow>
+          <IonRow
+            style={{
+              height: '70%'
             }}>
             <IonCol sizeLg="5">
               <LoginCard

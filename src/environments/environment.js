@@ -1,10 +1,10 @@
 // Dev
-const API_BASE_END_POINT = 'https://delugeonaluge.com/mobile-app/local/public';
-const MOBILE_URL = 'http://10.0.2.2:3000/Login'
+//const API_BASE_END_POINT = 'https://delugeonaluge.com/mobile-app/local/public';
+//const MOBILE_URL = 'http://10.0.2.2:3000/Login'
 
 // Prod
-//const API_BASE_END_POINT = 'https://delugeonaluge.com/mobile-app/dev/public';
-//const MOBILE_URL = 'https://twilio-for-zoho-crm-dev.herokuapp.com/Login'
+const API_BASE_END_POINT = 'https://delugeonaluge.com/mobile-app/dev/public';
+const MOBILE_URL = 'https://twilio-for-zoho-crm-dev.herokuapp.com/Login'
 
 export const environment = {
   API_BASE_END_POINT: API_BASE_END_POINT,
