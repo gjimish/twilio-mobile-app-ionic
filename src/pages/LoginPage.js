@@ -177,7 +177,7 @@ function LoginPage({
         <IonGrid style={{ height: '100%' }}>
           <IonRow
             style={{
-              height: '30%',
+              height: '20%',
               justifyContent: 'center',
               alignItems: 'center'
             }}>
@@ -185,7 +185,9 @@ function LoginPage({
           </IonRow>
           <IonRow
             style={{
-              height: '70%'
+              height: '80%',
+              justifyContent: 'center',
+              alignItems: 'center'
             }}>
             <IonCol sizeLg="5">
               <LoginCard
