@@ -137,6 +137,23 @@ const ChatsPage = () => {
             </IonSegment>
           </IonItem>
           <IonItem lines="none">
+            <IonSegment
+              value={conversationsFilter.filterMode}
+              onIonChange={(e) => {
+                setConversationsFilter((prevState) => ({
+                  ...prevState,
+                  filterMode: e.detail.value
+                }));
+              }}>
+              <IonSegmentButton value="Leads">
+                <IonLabel>leads</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="Contacts">
+                <IonLabel>contacts</IonLabel>
+              </IonSegmentButton>
+            </IonSegment>
+          </IonItem>
+          <IonItem lines="none">
             <IonLabel position="start">Show newest first</IonLabel>
             <IonToggle
               checked={conversationsFilter.newestFirst}
@@ -155,12 +172,25 @@ const ChatsPage = () => {
         ) : (
           <IonList>
             {messages.map((message) => {
-              return (
-                <ChatsRowItem
-                  message={message}
-                  key={message.recent_message.contact_id}
-                />
-              );
+              if (
+                conversationsFilter.filterMode == 'Leads' ||
+                conversationsFilter.filterMode == 'Contacts'
+              ) {
+                console.log(message.crm_module_name);
+                if (conversationsFilter.filterMode == message.crm_module_name)
+                  return (
+                    <ChatsRowItem
+                      message={message}
+                      key={message.recent_message.contact_id}
+                    />
+                  );
+              } else
+                return (
+                  <ChatsRowItem
+                    message={message}
+                    key={message.recent_message.contact_id}
+                  />
+                );
             })}
           </IonList>
         )}

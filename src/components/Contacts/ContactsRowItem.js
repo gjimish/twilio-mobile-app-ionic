@@ -1,4 +1,4 @@
-import { IonIcon, IonItem, IonLabel } from '@ionic/react';
+import { IonBadge, IonIcon, IonItem, IonLabel } from '@ionic/react';
 import { personCircleOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router';
 
@@ -19,7 +19,7 @@ const ContactsRowItem = (props) => {
           {contact.first_name} {contact.last_name}
         </h1>
       </IonLabel>
-
+      <IonBadge>{contact.type}</IonBadge>
     </IonItem>
   );
 };
