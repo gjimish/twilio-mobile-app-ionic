@@ -73,7 +73,10 @@ const ContactsPage = () => {
     event: undefined
   });
   const [contactsFilter, setContactsFilter] = useState({
-    filterMode: 'no-filter',
+    showContacts: true,
+    showLeads: true,
+    showDeals: false,
+    showCustomModules: false,
     perPage: 20,
     pageNum: 1
   });
@@ -212,24 +215,59 @@ const ContactsPage = () => {
             setShowPopover({ showPopover: false, event: undefined })
           }>
           <IonItem lines="none">
-            <IonSegment
-              value={contactsFilter.filterMode}
+            <IonLabel position="start">Contacts</IonLabel>
+            <IonToggle
+              checked={contactsFilter.showContacts}
+              name="Contacts"
               onIonChange={(e) => {
                 setContactsFilter((prevState) => ({
                   ...prevState,
-                  filterMode: e.detail.value
+                  showContacts: e.detail.checked
                 }));
-              }}>
-              <IonSegmentButton value="no-filter">
-                <IonLabel>no filter</IonLabel>
-              </IonSegmentButton>
-              <IonSegmentButton value="Leads">
-                <IonLabel>leads</IonLabel>
-              </IonSegmentButton>
-              <IonSegmentButton value="Contacts">
-                <IonLabel>contacts</IonLabel>
-              </IonSegmentButton>
-            </IonSegment>
+              }}
+            />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Leads</IonLabel>
+            <IonToggle
+              checked={contactsFilter.showLeads}
+              name="Leads"
+              onIonChange={(e) => {
+                setContactsFilter((prevState) => ({
+                  ...prevState,
+                  showLeads: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Deals</IonLabel>
+            <IonToggle
+              checked={contactsFilter.showDeals}
+              name="Deals"
+              onIonChange={(e) => {
+                setContactsFilter((prevState) => ({
+                  ...prevState,
+                  showDeals: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Custom Modules</IonLabel>
+            <IonToggle
+              checked={contactsFilter.showCustomModules}
+              name="CustomModules"
+              onIonChange={(e) => {
+                setContactsFilter((prevState) => ({
+                  ...prevState,
+                  showCustomModules: e.detail.checked,
+                  showDeals: false,
+                  showLeads: false,
+                  showContacts: false
+                }));
+              }}
+            />
           </IonItem>
         </IonPopover>
         {isRefreshing ? (
@@ -241,10 +279,17 @@ const ContactsPage = () => {
             <div style={{ textAlign: 'center' }}>{recordsTotal} Contacts</div>
             <IonList>
               {contacts.map((contact) => {
-                if (contactsFilter.filterMode == 'no-filter')
+                if (
+                  (contactsFilter.showContacts && contact.type == 'Contacts') ||
+                  (contactsFilter.showLeads && contact.type == 'Leads') ||
+                  (contactsFilter.showDeals && contact.type == 'Deals') ||
+                  (contactsFilter.showCustomModules &&
+                    contact.type != 'Deals' &&
+                    contact.type != 'Leads' &&
+                    contact.type != 'Contacts')
+                ) {
                   return <ContactsRowItem contact={contact} key={contact.id} />;
-                else if (contactsFilter.filterMode == contact.type)
-                  return <ContactsRowItem contact={contact} key={contact.id} />;
+                }
               })}
             </IonList>
           </>

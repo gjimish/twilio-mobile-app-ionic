@@ -19,7 +19,7 @@ const ContactsRowItem = (props) => {
           {contact.first_name} {contact.last_name}
         </h1>
       </IonLabel>
-      <IonBadge>{contact.type}</IonBadge>
+      <IonBadge>{contact.type.slice(0, -1)}</IonBadge>
     </IonItem>
   );
 };
