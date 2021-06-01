@@ -1,5 +1,6 @@
 import {
   IonBackButton,
+  IonButton,
   IonButtons,
   IonHeader,
   IonSkeletonText,
@@ -8,7 +9,7 @@ import {
 } from '@ionic/react';
 
 const ChatHeader = (props) => {
-  const { contact, crmLink, toNumber, isLoading } = props;
+  const { contact, crmLink, toNumber, isLoading, onClose } = props;
 
   return (
     <IonHeader>
@@ -39,6 +40,9 @@ const ChatHeader = (props) => {
             </>
           )}
         </IonTitle>
+        <IonButtons slot="end">
+          <IonButton onClick={onClose}>Close</IonButton>
+        </IonButtons>
       </IonToolbar>
     </IonHeader>
   );
