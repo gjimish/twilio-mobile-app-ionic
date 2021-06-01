@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { matchSorter } from 'match-sorter';
 import {
   IonButton,
+  IonCheckbox,
   IonCol,
   IonContent,
   IonHeader,
@@ -156,7 +157,7 @@ const ChatsPage = () => {
           </IonItem>
           <IonItem lines="none">
             <IonLabel position="start">Contacts</IonLabel>
-            <IonToggle
+            <IonCheckbox
               checked={conversationsFilter.showContacts}
               name="Contacts"
               onIonChange={(e) => {
@@ -169,7 +170,7 @@ const ChatsPage = () => {
           </IonItem>
           <IonItem lines="none">
             <IonLabel position="start">Leads</IonLabel>
-            <IonToggle
+            <IonCheckbox
               checked={conversationsFilter.showLeads}
               name="Leads"
               onIonChange={(e) => {
@@ -182,7 +183,7 @@ const ChatsPage = () => {
           </IonItem>
           <IonItem lines="none">
             <IonLabel position="start">Deals</IonLabel>
-            <IonToggle
+            <IonCheckbox
               checked={conversationsFilter.showDeals}
               name="Deals"
               onIonChange={(e) => {
@@ -195,7 +196,7 @@ const ChatsPage = () => {
           </IonItem>
           <IonItem lines="none">
             <IonLabel position="start">Custom Modules</IonLabel>
-            <IonToggle
+            <IonCheckbox
               checked={conversationsFilter.showCustomModules}
               name="CustomModules"
               onIonChange={(e) => {

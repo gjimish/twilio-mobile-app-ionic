@@ -1,5 +1,6 @@
 import {
   IonButton,
+  IonCheckbox,
   IonCol,
   IonContent,
   IonHeader,
@@ -216,7 +217,7 @@ const ContactsPage = () => {
           }>
           <IonItem lines="none">
             <IonLabel position="start">Contacts</IonLabel>
-            <IonToggle
+            <IonCheckbox
               checked={contactsFilter.showContacts}
               name="Contacts"
               onIonChange={(e) => {
@@ -229,7 +230,7 @@ const ContactsPage = () => {
           </IonItem>
           <IonItem lines="none">
             <IonLabel position="start">Leads</IonLabel>
-            <IonToggle
+            <IonCheckbox
               checked={contactsFilter.showLeads}
               name="Leads"
               onIonChange={(e) => {
@@ -242,7 +243,7 @@ const ContactsPage = () => {
           </IonItem>
           <IonItem lines="none">
             <IonLabel position="start">Deals</IonLabel>
-            <IonToggle
+            <IonCheckbox
               checked={contactsFilter.showDeals}
               name="Deals"
               onIonChange={(e) => {
@@ -255,7 +256,7 @@ const ContactsPage = () => {
           </IonItem>
           <IonItem lines="none">
             <IonLabel position="start">Custom Modules</IonLabel>
-            <IonToggle
+            <IonCheckbox
               checked={contactsFilter.showCustomModules}
               name="CustomModules"
               onIonChange={(e) => {
