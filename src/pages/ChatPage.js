@@ -152,7 +152,6 @@ function ChatPage() {
   useEffect(() => {
     if (chat?.data) {
       const data = chat.data;
-      console.log(chat);
       const sortedChat = sortChat(uniqBy(data.chat, 'sms_sid'));
       setMessages(sortedChat);
       setContact(data.user);
