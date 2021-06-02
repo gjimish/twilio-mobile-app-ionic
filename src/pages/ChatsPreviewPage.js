@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { matchSorter } from 'match-sorter';
 import {
   IonButton,
+  IonCheckbox,
   IonCol,
   IonContent,
   IonHeader,
@@ -37,10 +38,15 @@ const ChatsPage = () => {
   });
   const [conversationsFilter, setConversationsFilter] = useState({
     filterMode: 'unreplied',
+    showLeads: true,
+    showContacts: true,
+    showDeals: false,
+    showCustomModules: false,
     perPage: 20,
     pageNum: 1,
     newestFirst: true
   });
+
   const { data: dashboardData, refetch: refetchChats } = useQuery(
     ['conversationsQuery', conversationsFilter],
     fetchRecentConversations
@@ -149,18 +155,83 @@ const ChatsPage = () => {
               }}
             />
           </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Contacts</IonLabel>
+            <IonCheckbox
+              checked={conversationsFilter.showContacts}
+              name="Contacts"
+              onIonChange={(e) => {
+                setConversationsFilter((prevState) => ({
+                  ...prevState,
+                  showContacts: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Leads</IonLabel>
+            <IonCheckbox
+              checked={conversationsFilter.showLeads}
+              name="Leads"
+              onIonChange={(e) => {
+                setConversationsFilter((prevState) => ({
+                  ...prevState,
+                  showLeads: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Deals</IonLabel>
+            <IonCheckbox
+              checked={conversationsFilter.showDeals}
+              name="Deals"
+              onIonChange={(e) => {
+                setConversationsFilter((prevState) => ({
+                  ...prevState,
+                  showDeals: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Custom Modules</IonLabel>
+            <IonCheckbox
+              checked={conversationsFilter.showCustomModules}
+              name="CustomModules"
+              onIonChange={(e) => {
+                setConversationsFilter((prevState) => ({
+                  ...prevState,
+                  showCustomModules: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
         </IonPopover>
         {isLoading ? (
           <ItemRowSkeleton quantity={9} height={20} />
         ) : (
           <IonList>
             {messages.map((message) => {
-              return (
-                <ChatsRowItem
-                  message={message}
-                  key={message.recent_message.contact_id}
-                />
-              );
+              if (
+                (conversationsFilter.showContacts &&
+                  message.crm_module_name == 'Contacts') ||
+                (conversationsFilter.showLeads &&
+                  message.crm_module_name == 'Leads') ||
+                (conversationsFilter.showDeals &&
+                  message.crm_module_name == 'Deals') ||
+                (conversationsFilter.showCustomModules &&
+                  message.crm_module_name != 'Deals' &&
+                  message.crm_module_name != 'Leads' &&
+                  message.crm_module_name != 'Contacts')
+              ) {
+                return (
+                  <ChatsRowItem
+                    message={message}
+                    key={message.recent_message.contact_id}
+                  />
+                );
+              }
             })}
           </IonList>
         )}

@@ -1,22 +1,34 @@
-import { useState, useEffect, useRef } from 'react';
 import {
+  IonButton,
+  IonCheckbox,
+  IonCol,
   IonContent,
   IonHeader,
+  IonIcon,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonItem,
+  IonLabel,
   IonList,
   IonPage,
+  IonPopover,
+  IonRow,
   IonSearchbar,
+  IonSegment,
+  IonSegmentButton,
   IonTitle,
+  IonToggle,
   IonToolbar
 } from '@ionic/react';
-
-import PullToRefresh from '../components/PullToRefresh';
-import ContactsRowItem from '../components/Contacts/ContactsRowItem';
-import query from '../utils/query';
-import setBasePath from '../utils/setBasePath';
-import setAuthToken from '../utils/setAuthToken';
 import { debounce } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
+import ContactsRowItem from '../components/Contacts/ContactsRowItem';
 import ItemRowSkeletons from '../components/ItemRowSkeletons';
-import { IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/react';
+import PullToRefresh from '../components/PullToRefresh';
+import query from '../utils/query';
+import setAuthToken from '../utils/setAuthToken';
+import setBasePath from '../utils/setBasePath';
+import { filterOutline } from 'ionicons/icons';
 
 const DEBOUNCE_DELAY = 500;
 
@@ -57,6 +69,18 @@ const ContactsPage = () => {
   const [recordsFiltered, setRecordsFiltered] = useState(0);
   const [contacts, setContacts] = useState([]);
   const infiniteScrollRef = useRef(null);
+  const [popoverState, setShowPopover] = useState({
+    showPopover: false,
+    event: undefined
+  });
+  const [contactsFilter, setContactsFilter] = useState({
+    showContacts: true,
+    showLeads: true,
+    showDeals: false,
+    showCustomModules: false,
+    perPage: 20,
+    pageNum: 1
+  });
 
   const getColumns = () => {
     return columns.slice(0).map((column) =>
@@ -167,7 +191,83 @@ const ContactsPage = () => {
             <IonTitle size="large">Contacts</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonSearchbar onIonChange={handleSetSearchInput}></IonSearchbar>
+        <IonRow className="ion-align-items-center">
+          <IonCol>
+            <IonSearchbar onIonChange={handleSetSearchInput}></IonSearchbar>
+          </IonCol>
+          <IonButton
+            color="light"
+            onClick={(e) => {
+              setShowPopover({ showPopover: true, event: e });
+            }}
+            style={{
+              '--border-radius': '999px',
+              paddingRight: '10px'
+            }}>
+            <IonIcon icon={filterOutline} color="primary" slot="icon-only" />
+          </IonButton>
+        </IonRow>
+
+        <IonPopover
+          cssClass="contact-popover"
+          event={popoverState.event}
+          isOpen={popoverState.showPopover}
+          onDidDismiss={() =>
+            setShowPopover({ showPopover: false, event: undefined })
+          }>
+          <IonItem lines="none">
+            <IonLabel position="start">Contacts</IonLabel>
+            <IonCheckbox
+              checked={contactsFilter.showContacts}
+              name="Contacts"
+              onIonChange={(e) => {
+                setContactsFilter((prevState) => ({
+                  ...prevState,
+                  showContacts: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Leads</IonLabel>
+            <IonCheckbox
+              checked={contactsFilter.showLeads}
+              name="Leads"
+              onIonChange={(e) => {
+                setContactsFilter((prevState) => ({
+                  ...prevState,
+                  showLeads: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Deals</IonLabel>
+            <IonCheckbox
+              checked={contactsFilter.showDeals}
+              name="Deals"
+              onIonChange={(e) => {
+                setContactsFilter((prevState) => ({
+                  ...prevState,
+                  showDeals: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="start">Custom Modules</IonLabel>
+            <IonCheckbox
+              checked={contactsFilter.showCustomModules}
+              name="CustomModules"
+              onIonChange={(e) => {
+                setContactsFilter((prevState) => ({
+                  ...prevState,
+                  showCustomModules: e.detail.checked
+                }));
+              }}
+            />
+          </IonItem>
+        </IonPopover>
         {isRefreshing ? (
           <div style={{ marginTop: '28px' }}>
             <ItemRowSkeletons quantity={9} height={20} heightOffset={1} />
@@ -177,7 +277,23 @@ const ContactsPage = () => {
             <div style={{ textAlign: 'center' }}>{recordsTotal} Contacts</div>
             <IonList>
               {contacts.map((contact) => {
-                return <ContactsRowItem contact={contact} key={contact.id} />;
+                if (
+                  (contactsFilter.showContacts && contact.type == 'Contacts') ||
+                  (contactsFilter.showLeads && contact.type == 'Leads') ||
+                  (contactsFilter.showDeals && contact.type == 'Deals') ||
+                  (contactsFilter.showCustomModules &&
+                    contact.type != 'Deals' &&
+                    contact.type != 'Leads' &&
+                    contact.type != 'Contacts')
+                ) {
+                  return (
+                    <ContactsRowItem
+                      query={searchInput}
+                      contact={contact}
+                      key={contact.id}
+                    />
+                  );
+                }
               })}
             </IonList>
           </>

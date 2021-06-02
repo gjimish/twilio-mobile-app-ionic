@@ -1,4 +1,4 @@
-import { IonIcon, IonItem, IonLabel } from '@ionic/react';
+import { IonBadge, IonIcon, IonItem, IonLabel } from '@ionic/react';
 import { personCircleOutline } from 'ionicons/icons';
 import moment from 'moment';
 import { useHistory } from 'react-router';
@@ -20,6 +20,7 @@ const ChatsRowItem = (props) => {
         <h1>
           {props.message.first_name} {props.message.last_name}
         </h1>
+        <IonBadge>{props.message.type.slice(0, -1)}</IonBadge>
         <p>{props.message.recent_message.body}</p>
       </IonLabel>
 

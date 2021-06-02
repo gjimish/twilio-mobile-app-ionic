@@ -13,6 +13,9 @@ import { IonPage } from '@ionic/react';
 import ChatInput from '../components/Chats/Chat/ChatInput';
 import ChatViewer from '../components/Chats/Chat/ChatViewer';
 import ChatHeader from '../components/Chats/Chat/ChatHeader';
+import query from '../utils/query';
+import { useHistory } from 'react-router';
+import axios from 'axios';
 
 const deliveryMethods = [
   { label: 'SMS', value: 'sms' },
@@ -20,6 +23,8 @@ const deliveryMethods = [
 ];
 
 function ChatPage() {
+  let history = useHistory();
+
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [contact, setContact] = useState({});
@@ -154,6 +159,29 @@ function ChatPage() {
       setIsLoading(false);
     }
   }, [dispatch, chat, id, sortChat]);
+
+  const onClose = () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const payload = {
+      zoho_contact_id: contact.zoho_contact_id
+    };
+
+    const body = JSON.stringify(payload);
+
+    axios
+      .post('/api/mark-conversation-closed', body, config)
+      .then((res) => {
+        history.goBack();
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
   /*
   useEffect(() => {
     if (error.id === 'SEND_SMS_FAIL') {
@@ -184,6 +212,7 @@ function ChatPage() {
           isLoading={isLoading}
           crmLink={crmLink}
           toNumber={toNumber}
+          onClose={onClose}
         />
         <ChatViewer messages={messages} isLoading={isLoading} />
         <ChatInput
