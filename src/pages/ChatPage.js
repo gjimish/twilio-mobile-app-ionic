@@ -15,6 +15,7 @@ import ChatViewer from '../components/Chats/Chat/ChatViewer';
 import ChatHeader from '../components/Chats/Chat/ChatHeader';
 import query from '../utils/query';
 import { useHistory } from 'react-router';
+import axios from 'axios';
 
 const deliveryMethods = [
   { label: 'SMS', value: 'sms' },
@@ -161,17 +162,26 @@ function ChatPage() {
   }, [dispatch, chat, id, sortChat]);
 
   const onClose = () => {
-    const payload = {
-      zoho_contact_id: id
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     };
-    query({
-      url: '/mark-conversation-closed',
-      method: 'post',
-      data: payload
-    }).then((response) => {
-      console.log(response);
-      history.goBack();
-    });
+
+    const payload = {
+      zoho_contact_id: contact.zoho_contact_id
+    };
+
+    const body = JSON.stringify(payload);
+
+    axios
+      .post('/api/mark-conversation-closed', body, config)
+      .then((res) => {
+        history.goBack();
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
   /*
   useEffect(() => {

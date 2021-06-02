@@ -286,7 +286,13 @@ const ContactsPage = () => {
                     contact.type != 'Leads' &&
                     contact.type != 'Contacts')
                 ) {
-                  return <ContactsRowItem contact={contact} key={contact.id} />;
+                  return (
+                    <ContactsRowItem
+                      query={searchInput}
+                      contact={contact}
+                      key={contact.id}
+                    />
+                  );
                 }
               })}
             </IonList>
