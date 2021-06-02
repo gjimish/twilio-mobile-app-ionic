@@ -262,10 +262,7 @@ const ContactsPage = () => {
               onIonChange={(e) => {
                 setContactsFilter((prevState) => ({
                   ...prevState,
-                  showCustomModules: e.detail.checked,
-                  showDeals: false,
-                  showLeads: false,
-                  showContacts: false
+                  showCustomModules: e.detail.checked
                 }));
               }}
             />

@@ -202,9 +202,6 @@ const ChatsPage = () => {
               onIonChange={(e) => {
                 setConversationsFilter((prevState) => ({
                   ...prevState,
-                  showDeals: false,
-                  showLeads: false,
-                  showContacts: false,
                   showCustomModules: e.detail.checked
                 }));
               }}
