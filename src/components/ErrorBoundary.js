@@ -1,4 +1,6 @@
 import React from 'react';
+import * as Sentry from '@sentry/browser';
+
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -9,6 +11,7 @@ export default class ErrorBoundary extends React.Component {
     // Display fallback UI
     this.setState({ hasError: true });
     this.setState({ error: error.toString() });
+    Sentry.captureException(error);
   }
 
   render() {

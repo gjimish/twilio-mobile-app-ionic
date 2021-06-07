@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { IonApp } from '@ionic/react';
 import configureStore from './config/configureStore';
 import ReactGA from 'react-ga';
@@ -8,6 +8,8 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { Plugins, Capacitor } from '@capacitor/core';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
+import * as Sentry from '@sentry/browser';
+import { Integrations } from '@sentry/tracing';
 
 import Routes from './Routes';
 /* Core CSS required for Ionic components to work properly */
@@ -43,6 +45,17 @@ const App = () => {
   const { PushNotifications } = Plugins;
   // Capacitor dependencies
   const { PusherBeamNotification } = Plugins;
+
+  Sentry.init({
+    dsn: 'https://5be1e6ef7a934bc49d8647b07c4728e8@sentry.delugeonaluge.com/8',
+    integrations: [new Integrations.BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0
+  });
+
   if (store.getState().auth.user) {
     ReactGA.initialize('UA-54758380-3');
     ReactGA.set({
@@ -69,7 +82,6 @@ const App = () => {
       PushNotifications.requestPermission();
     }
   });
-
   return (
     <IonApp>
       <Provider store={store}>
