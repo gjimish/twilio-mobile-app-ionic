@@ -213,6 +213,15 @@ function ChatPage() {
           crmLink={crmLink}
           toNumber={toNumber}
           onClose={onClose}
+          messages={messages}
+          fromNumber={fromNumber}
+          setFromNumber={setFromNumber}
+          fromNumbers={fromNumbers}
+          setToNumber={setToNumber}
+          toNumbers={toNumbers}
+          setDeliveryMethod={setDeliveryMethod}
+          deliveryMethod={deliveryMethod}
+          deliveryMethods={deliveryMethods}
         />
         <ChatViewer messages={messages} isLoading={isLoading} />
         <ChatInput

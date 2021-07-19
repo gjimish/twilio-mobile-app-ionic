@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
 import { matchSorter } from 'match-sorter';
 import {
@@ -28,10 +28,23 @@ import ItemRowSkeleton from '../components/ItemRowSkeletons';
 import { fetchRecentConversations } from '../actions/smsActions';
 import { filterOutline } from 'ionicons/icons';
 import './Popover.css';
+import { useIonRouter } from '@ionic/react';
+import { Capacitor, Plugins } from '@capacitor/core';
+import query from '../utils/query';
+import axios from 'axios';
+import { version } from '../../package.json';
+
+import * as Sentry from '@sentry/browser';
+import { Integrations } from '@sentry/tracing';
+import { AppVersion } from '@ionic-native/app-version';
+import { environment } from '../environments/environment';
+
+const { App, Keyboard } = Plugins;
 
 const ChatsPage = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const searchRef = useRef(true);
   const [popoverState, setShowPopover] = useState({
     showPopover: false,
     event: undefined
@@ -40,8 +53,8 @@ const ChatsPage = () => {
     filterMode: 'unreplied',
     showLeads: true,
     showContacts: true,
-    showDeals: false,
-    showCustomModules: false,
+    showDeals: true,
+    showCustomModules: true,
     perPage: 20,
     pageNum: 1,
     newestFirst: true
@@ -52,29 +65,80 @@ const ChatsPage = () => {
     fetchRecentConversations
   );
 
-  const handleSearchInputChange = (e) => {
+  const ionRouter = useIonRouter();
+  document.addEventListener('ionBackButton', (ev) => {
+    ev.detail.register(-1, () => {
+      if (!ionRouter.canGoBack()) {
+        App.exitApp();
+      }
+    });
+  });
+
+  function debounce(func, timeout = 500) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+  }
+
+  const searchWithDelay = debounce((e) => {
     const value = e.target.value;
     if (value) {
-      const recordsFiltered = matchSorter(
-        dashboardData?.data?.contacts ?? [],
-        e.target.value,
-        {
-          keys: ['first_name', 'last_name', 'recent_message.send_from']
-        }
-      );
-      setMessages(recordsFiltered);
+      axios.get(`api/search/${value}`).then((response) => {
+        setMessages(response.data.searchResult);
+      });
     } else {
       setMessages(dashboardData?.data?.contacts ?? []);
     }
+  });
+
+  const handleSearchInputChange = (e) => {
+    searchWithDelay(e)
   };
 
   const handleRefresh = async (e) => {
+    window.ga('send', {
+      hitType: 'event',
+      eventCategory: 'Videos',
+      eventAction: 'play',
+      eventLabel: 'Fall Campaign'
+    });
+
     return new Promise((resolve) => {
       refetchChats().then(() => {
         resolve();
       });
     });
   };
+
+  const handleSearchButton = (e) => {
+    if (e.key == 'Enter') {
+      e.target.blur()
+    }
+  }
+
+  useEffect(async () => {
+    let versionCode
+    if (Capacitor.isNative) {
+      let res = await AppVersion.getVersionCode()
+      versionCode = res
+    } else {
+      versionCode = version
+    }
+
+    let currentUser = JSON.parse(window.localStorage.getItem('user'))
+
+    Sentry.init({
+      dsn: 'https://5be1e6ef7a934bc49d8647b07c4728e8@sentry.delugeonaluge.com/8',
+      integrations: [new Integrations.BrowserTracing()],
+      initialScope: {
+        user: { username: currentUser.name, id: currentUser.zoho_user_id },
+        extra: { appVersion: versionCode }
+      },
+      tracesSampleRate: 1.0
+    });
+  }, [])
 
   useEffect(() => {
     if (dashboardData?.data?.contacts) {
@@ -100,8 +164,12 @@ const ChatsPage = () => {
           </IonToolbar>
         </IonHeader>
         <IonRow className="ion-align-items-center">
+          <button ref={searchRef} style={{ position: 'absolute', visibility: 'hidden' }} />
           <IonCol>
-            <IonSearchbar onIonChange={handleSearchInputChange}></IonSearchbar>
+            <IonSearchbar
+              onIonClear={() => { setTimeout(() => { searchRef.current.focus() }, 100) }}
+              onKeyUp={handleSearchButton}
+              onIonChange={handleSearchInputChange} />
           </IonCol>
           <IonButton
             color="light"
@@ -228,7 +296,7 @@ const ChatsPage = () => {
                 return (
                   <ChatsRowItem
                     message={message}
-                    key={message.recent_message.contact_id}
+                    key={message.id}
                   />
                 );
               }

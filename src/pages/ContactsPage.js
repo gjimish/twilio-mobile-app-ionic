@@ -76,8 +76,8 @@ const ContactsPage = () => {
   const [contactsFilter, setContactsFilter] = useState({
     showContacts: true,
     showLeads: true,
-    showDeals: false,
-    showCustomModules: false,
+    showDeals: true,
+    showCustomModules: true,
     perPage: 20,
     pageNum: 1
   });
@@ -143,10 +143,25 @@ const ContactsPage = () => {
     });
   };
 
+  const syncContactsData = async () => {
+    await query({
+      url: '/api/sync-current-user-records',
+      method: 'get',
+      data: {}
+    })
+    refreshContactsData();
+  };
+
   const handleSetSearchInput = (e) => {
     setCurrentPage(0);
     setSearchInput(e.target.value);
   };
+
+  const handleSearchButton = (e) => {
+    if (e.key == 'Enter') {
+      e.target.blur()
+    }
+  }
 
   const delayedSearch = debounce(() => {
     console.log('handle search');
@@ -184,7 +199,7 @@ const ContactsPage = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <PullToRefresh handleRefresh={refreshContactsData} />
+        <PullToRefresh handleRefresh={syncContactsData} />
         {/* This shrinks the header on iphone */}
         <IonHeader collapse="condense">
           <IonToolbar>
@@ -193,7 +208,7 @@ const ContactsPage = () => {
         </IonHeader>
         <IonRow className="ion-align-items-center">
           <IonCol>
-            <IonSearchbar onIonChange={handleSetSearchInput}></IonSearchbar>
+            <IonSearchbar onKeyUp={handleSearchButton} onIonChange={handleSetSearchInput}></IonSearchbar>
           </IonCol>
           <IonButton
             color="light"

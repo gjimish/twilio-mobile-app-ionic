@@ -20,6 +20,12 @@
   align-items: flex-end;
 }
 
+ion-modal.fullscreen {
+  --width: 100%;
+  --height: 100%;
+  --border-radius: 0;
+}
+
 .message > section > div > p {
   margin: 5px;
 }
@@ -27,8 +33,8 @@
 .message__date {
   color: gray;
   position: absolute;
-  font-size: 8px;
-  bottom: 0px;
+  font-size: 12px;
+  bottom: -6px;
   left: 0;
   margin-top: 10px;
   margin-left: 10px;

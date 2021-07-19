@@ -1,12 +1,19 @@
 import {
   IonContent,
+  IonFab,
+  IonFabButton,
   IonHeader,
+  IonIcon,
   IonPage,
   IonTitle,
   IonToolbar
 } from '@ionic/react';
+import { keypad } from 'ionicons/icons';
+import { useHistory } from 'react-router';
 
 const CallsPage: React.FC = () => {
+  let history = useHistory();
+
   return (
     <IonPage>
       <IonHeader>
@@ -14,14 +21,22 @@ const CallsPage: React.FC = () => {
           <IonTitle>Calls</IonTitle>
         </IonToolbar>
       </IonHeader>
+
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Calls</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div>Calls Page</div>
+
+        <IonFab onClick={() => { history.push(`/dial`); }}
+          vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton>
+            <IonIcon icon={keypad} />
+          </IonFabButton>
+        </IonFab>
       </IonContent>
+
     </IonPage>
   );
 };

@@ -8,7 +8,7 @@ import {
 import { Redirect, Route, Switch } from 'react-router-dom';
 import CallsPage from '../pages/ContactsPage';
 import ContactsPage from '../pages/CallsPage';
-import { chatboxOutline, peopleOutline } from 'ionicons/icons';
+import { callOutline, chatboxOutline, keypadOutline, peopleOutline } from 'ionicons/icons';
 import ChatsPreviewPage from '../pages/ChatsPreviewPage';
 
 const Tabs = (props) => {
@@ -36,11 +36,9 @@ const Tabs = (props) => {
         <IonTabButton tab="tab2" href="/Dashboard/contact">
           <IonIcon icon={peopleOutline} />
         </IonTabButton>
-        {/*
-        <IonTabButton tab="tab3" href="/Dashboard/call">
+        {/* <IonTabButton tab="tab3" href="/Dashboard/call">
           <IonIcon icon={callOutline} />
-        </IonTabButton>
-        */}
+        </IonTabButton> */}
       </IonTabBar>
     </IonTabs>
   );

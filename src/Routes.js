@@ -8,6 +8,9 @@ import Tabs from './components/Tabs';
 import ChatPage from './pages/ChatPage';
 import ContactPage from './pages/ContactPage';
 import PushNotificationWrapper from './components/PushNotificationWrapper';
+import DialPage from './pages/DialPage';
+import AddQuickReply from './pages/AddQuickReply';
+import EditQuickReply from './pages/EditQuickReply';
 
 const Routes = () => {
   const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -41,6 +44,15 @@ const Routes = () => {
                 </Route>
                 <Route exact path="/contact/:id">
                   <ContactPage />
+                </Route>
+                <Route exact path="/dial">
+                  <DialPage />
+                </Route>
+                <Route exact path="/addreply">
+                  <AddQuickReply />
+                </Route>
+                <Route exact path="/editreply">
+                  <EditQuickReply />
                 </Route>
               </Switch>
             </>
