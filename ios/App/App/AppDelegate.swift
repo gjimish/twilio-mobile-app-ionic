@@ -101,6 +101,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       NotificationCenter.default.post(CAPBridge.statusBarTappedNotification)
     }
   }
-
 }
-

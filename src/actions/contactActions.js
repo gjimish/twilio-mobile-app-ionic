@@ -11,6 +11,7 @@ import {
   CLEAR_CONTACTS_DATA,
   SYNC_CONTACTS_SUCCESS
 } from './types';
+import { logOutIfRequestUnauthenticated } from './authActions';
 
 //sync Contacts
 export const syncContacts = () => (dispatch) => {
@@ -27,28 +28,21 @@ export const syncContacts = () => (dispatch) => {
   axios
     .get('/api/sync-current-user-records', config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch({
-          type: SYNC_CONTACTS_SUCCESS,
-          payload: res.data
-        });
-      }
+      dispatch({
+        type: SYNC_CONTACTS_SUCCESS,
+        payload: res.data
+      });
     })
     .catch((err) => {
-      dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          'SYNC_CONTACTS_FAIL'
-        )
-      );
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+        dispatch(
+          returnErrors(
+            err.response.data,
+            err.response.status,
+            'SYNC_CONTACTS_FAIL'
+          )
+        );
+      }
     });
 };
 
@@ -67,28 +61,21 @@ export const getContacts = () => (dispatch) => {
   axios
     .get('/api/contacts-list', config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch({
-          type: GET_CONTACTS_SUCCESS,
-          payload: res.data
-        });
-      }
+      dispatch({
+        type: GET_CONTACTS_SUCCESS,
+        payload: res.data
+      });
     })
     .catch((err) => {
-      dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          'GET_CONTACTS_FAIL'
-        )
-      );
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+        dispatch(
+          returnErrors(
+            err.response.data,
+            err.response.status,
+            'GET_CONTACTS_FAIL'
+          )
+        );
+      }
     });
 };
 
@@ -110,23 +97,16 @@ export const saveContact = (data) => (dispatch) => {
   axios
     .post('/api/save-contacts', body, config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch(noErrors('Yes, contact has been successfully saved !'));
+      dispatch(noErrors('Yes, contact has been successfully saved !'));
 
-        dispatch({
-          type: SAVE_CONTACT_SUCCESS,
-          payload: res.data
-        });
-      }
+      dispatch({
+        type: SAVE_CONTACT_SUCCESS,
+        payload: res.data
+      });
     })
     .catch(() => {
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+      }
       // dispatch(
       //   returnErrors(err.response.data, err.response.status, 'SAVE_CONTACT_FAIL')
       // )
@@ -150,30 +130,23 @@ export const deleteContact = (data) => (dispatch) => {
   axios
     .post('/api/delete-contact', body, config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch(noErrors('Yes, contact has been successfully deleted !'));
+      dispatch(noErrors('Yes, contact has been successfully deleted !'));
 
-        // dispatch({
-        //   type: SAVE_CONTACT_SUCCESS,
-        //   payload: res.data
-        // })
-      }
+      // dispatch({
+      //   type: SAVE_CONTACT_SUCCESS,
+      //   payload: res.data
+      // })
     })
     .catch((err) => {
-      dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          'DELETE_CONTACT_FAIL'
-        )
-      );
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+        dispatch(
+          returnErrors(
+            err.response.data,
+            err.response.status,
+            'DELETE_CONTACT_FAIL'
+          )
+        );
+      }
     });
 };
 
@@ -200,31 +173,24 @@ export const editContact = (data) => (dispatch) => {
   axios
     .post('/api/edit-contact', body, config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        // dispatch(
-        //   noErrors("Yes, contact has been successfully deleted !")
-        // );
+      // dispatch(
+      //   noErrors("Yes, contact has been successfully deleted !")
+      // );
 
-        dispatch({
-          type: EDIT_CONTACT_SUCCESS,
-          payload: res.data
-        });
-      }
+      dispatch({
+        type: EDIT_CONTACT_SUCCESS,
+        payload: res.data
+      });
     })
     .catch((err) => {
-      dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          'DELETE_CONTACT_FAIL'
-        )
-      );
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+        dispatch(
+          returnErrors(
+            err.response.data,
+            err.response.status,
+            'DELETE_CONTACT_FAIL'
+          )
+        );
+      }
     });
 };

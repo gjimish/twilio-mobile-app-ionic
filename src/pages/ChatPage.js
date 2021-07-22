@@ -16,6 +16,7 @@ import ChatHeader from '../components/Chats/Chat/ChatHeader';
 import query from '../utils/query';
 import { useHistory } from 'react-router';
 import axios from 'axios';
+import { logOutIfRequestUnauthenticated } from '../actions/authActions';
 
 const deliveryMethods = [
   { label: 'SMS', value: 'sms' },
@@ -180,6 +181,7 @@ function ChatPage() {
       })
       .catch((err) => {
         console.log(err.response.data);
+        logOutIfRequestUnauthenticated(err, dispatch)
       });
   };
   /*

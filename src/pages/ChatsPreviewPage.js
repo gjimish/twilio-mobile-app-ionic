@@ -19,14 +19,22 @@ import {
   IonSegmentButton,
   IonTitle,
   IonToggle,
-  IonToolbar
+  IonToolbar, useIonRouter
 } from '@ionic/react';
-import ChatsRowItem from '../components/Chats/ChatsRowItem';
-import ChatsHeader from '../components/Chats/ChatsHeader';
-import PullToRefresh from '../components/PullToRefresh';
-import ItemRowSkeleton from '../components/ItemRowSkeletons';
-import { fetchRecentConversations } from '../actions/smsActions';
+import * as Sentry from '@sentry/browser';
+import { Integrations } from '@sentry/tracing';
+import axios from 'axios';
 import { filterOutline } from 'ionicons/icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
+import { version } from '../../package.json';
+import { logOutIfRequestUnauthenticated } from '../actions/authActions';
+import { fetchRecentConversations } from '../actions/smsActions';
+import ChatsHeader from '../components/Chats/ChatsHeader';
+import ChatsRowItem from '../components/Chats/ChatsRowItem';
+import ItemRowSkeleton from '../components/ItemRowSkeletons';
+import PullToRefresh from '../components/PullToRefresh';
 import './Popover.css';
 import { useIonRouter } from '@ionic/react';
 import { Capacitor, Plugins } from '@capacitor/core';
@@ -41,7 +49,11 @@ import { environment } from '../environments/environment';
 
 const { App, Keyboard } = Plugins;
 
+
+const { App, Keyboard } = Plugins;
+
 const ChatsPage = () => {
+  const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const searchRef = useRef(true);
@@ -87,6 +99,8 @@ const ChatsPage = () => {
     if (value) {
       axios.get(`api/search/${value}`).then((response) => {
         setMessages(response.data.searchResult);
+      }).catch(err => {
+        logOutIfRequestUnauthenticated(err, dispatch)
       });
     } else {
       setMessages(dashboardData?.data?.contacts ?? []);
@@ -164,7 +178,7 @@ const ChatsPage = () => {
           </IonToolbar>
         </IonHeader>
         <IonRow className="ion-align-items-center">
-          <button ref={searchRef} style={{ position: 'absolute', visibility: 'hidden' }} />
+          <button ref={searchRef} style={{ position: 'absolute', backgroundColor: 'white' }} />
           <IonCol>
             <IonSearchbar
               onIonClear={() => { setTimeout(() => { searchRef.current.focus() }, 100) }}

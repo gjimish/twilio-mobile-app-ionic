@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { returnErrors, noErrors } from './errorActions';
-import setBasePath from '../utils/setBasePath';
 import setAuthToken from '../utils/setAuthToken';
-
+import setBasePath from '../utils/setBasePath';
+import { logOutIfRequestUnauthenticated } from './authActions';
+import { noErrors, returnErrors } from './errorActions';
 import {
-  LOGOUT_SUCCESS,
   GET_SETTINGS_SUCCESS,
   STORE_SETTINGS_SUCCESS
 } from './types';
@@ -24,28 +23,21 @@ export const getSettings = () => (dispatch) => {
   axios
     .get('/api/get-settings', config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch({
-          type: GET_SETTINGS_SUCCESS,
-          payload: res.data
-        });
-      }
+      dispatch({
+        type: GET_SETTINGS_SUCCESS,
+        payload: res.data
+      });
     })
     .catch((err) => {
-      dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          'GET_SETTINGS_FAIL'
-        )
-      );
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+        dispatch(
+          returnErrors(
+            err.response.data,
+            err.response.status,
+            'GET_SETTINGS_FAIL'
+          )
+        );
+      }
     });
 };
 
@@ -67,14 +59,7 @@ export const storeSettings = (data) => (dispatch) => {
   axios
     .post('/api/store-settings', body, config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
+      if (!logOutIfRequestUnauthenticated(res, dispatch)) {
         dispatch(noErrors('Yes, settings have been saved successfully !'));
 
         dispatch({

@@ -30,6 +30,14 @@
 		A555EC6B25C3E2E4003C870B /* PushNotifications.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PushNotifications.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A555EC7025C3E344003C870B /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = Carthage/Build/iOS/PushNotifications.framework; sourceTree = "<group>"; };
 		A555ED5F25C5E288003C870B /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
+		AE397F1826984FF600B992B2 /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; path = "../../pusher-beams-notification/ios"; sourceTree = "<group>"; };
+		AE397F192698500300B992B2 /* PushNotifications.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PushNotifications.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE397F9D269855CE00B992B2 /* PushNotifications.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PushNotifications.xcframework; path = "../../pusher-beams-notification/ios/Carthage/Build/PushNotifications.xcframework"; sourceTree = "<group>"; };
+		AE397FAA2698561600B992B2 /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = "../../pusher-beams-notification/ios/Carthage/Build/PushNotifications.xcframework/ios-arm64_i386_x86_64-simulator/PushNotifications.framework"; sourceTree = "<group>"; };
+		AE397FDF2698690300B992B2 /* PushNotifications.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PushNotifications.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE398056269C0BC900B992B2 /* PusherSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PusherSwift.xcframework; path = "../../../../../Downloads/pusher-websocket-swift-9.2.2/Carthage/Build/PusherSwift.xcframework"; sourceTree = "<group>"; };
+		AE39808A269C11AA00B992B2 /* NWWebSocket.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = NWWebSocket.xcframework; path = "../../../../../Downloads/pusher-websocket-swift-9.2.2/Carthage/Build/NWWebSocket.xcframework"; sourceTree = "<group>"; };
+		AE398093269C11ED00B992B2 /* TweetNacl.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TweetNacl.xcframework; path = "../../../../../Downloads/pusher-websocket-swift-9.2.2/Carthage/Build/TweetNacl.xcframework"; sourceTree = "<group>"; };
 		AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.release.xcconfig"; sourceTree = "<group>"; };
 		FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
@@ -50,6 +58,14 @@
 		27E2DDA53C4D2A4D1A88CE4A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AE398093269C11ED00B992B2 /* TweetNacl.xcframework */,
+				AE39808A269C11AA00B992B2 /* NWWebSocket.xcframework */,
+				AE398056269C0BC900B992B2 /* PusherSwift.xcframework */,
+				AE397FDF2698690300B992B2 /* PushNotifications.framework */,
+				AE397FAA2698561600B992B2 /* PushNotifications.framework */,
+				AE397F9D269855CE00B992B2 /* PushNotifications.xcframework */,
+				AE397F192698500300B992B2 /* PushNotifications.framework */,
+				AE397F1826984FF600B992B2 /* ios */,
 				A555EC6B25C3E2E4003C870B /* PushNotifications.framework */,
 				A555EC7025C3E344003C870B /* PushNotifications.framework */,
 				AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */,
@@ -112,12 +128,15 @@
 				504EC3011FED79650016851F /* Frameworks */,
 				504EC3021FED79650016851F /* Resources */,
 				9592DBEFFC6D2A0C8D5DEB22 /* [CP] Embed Pods Frameworks */,
+				109F74238BDA9E87F4EAF6A7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = App;
+			packageProductDependencies = (
+			);
 			productName = App;
 			productReference = 504EC3041FED79650016851F /* App.app */;
 			productType = "com.apple.product-type.application";
@@ -147,6 +166,8 @@
 				Base,
 			);
 			mainGroup = 504EC2FB1FED79650016851F;
+			packageReferences = (
+			);
 			productRefGroup = 504EC3051FED79650016851F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -173,6 +194,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		109F74238BDA9E87F4EAF6A7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-App/Pods-App-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6634F4EFEBD30273BCE97C65 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -273,7 +309,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -331,7 +366,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -356,15 +390,15 @@
 				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 6777Z8P554;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(SRCROOT)/**",
 				);
 				INFOPLIST_FILE = App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DDEBUG\"";
@@ -385,15 +419,15 @@
 				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 6777Z8P554;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(SRCROOT)/**",
 				);
 				INFOPLIST_FILE = App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.zoho.twilio;

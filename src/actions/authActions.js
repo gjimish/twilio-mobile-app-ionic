@@ -1,21 +1,27 @@
 import axios from 'axios';
-import { returnErrors, noErrors } from './errorActions';
-import setBasePath from '../utils/setBasePath';
-import setAuthToken from '../utils/setAuthToken';
-
-import {
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  UPDATE_PROFILE_SUCCESS,
-  UPDATE_PROFILE_IMAGE_SUCCESS,
-  LOGIN_TEMP,
-  NEVER_ASK_FOR_PERMISSION,
-  ON_UPDATE_HOOKS
-} from './types';
 import moment from 'moment';
+import setAuthToken from '../utils/setAuthToken';
+import setBasePath from '../utils/setBasePath';
+import { noErrors, returnErrors } from './errorActions';
+import {
+  LOGIN_FAIL, LOGIN_SUCCESS, LOGIN_TEMP, LOGOUT_SUCCESS, NEVER_ASK_FOR_PERMISSION,
+  ON_UPDATE_HOOKS, REGISTER_FAIL, REGISTER_SUCCESS, UPDATE_PROFILE_IMAGE_SUCCESS, UPDATE_PROFILE_SUCCESS
+} from './types';
+
+
+export function logOutIfRequestUnauthenticated(error, dispatch) {
+  if (
+    error.response.status !== undefined &&
+    error.response.status === 401
+  ) {
+    dispatch({
+      type: LOGOUT_SUCCESS
+    });
+    window.location.pathname = "/Login"
+    return true
+  }
+  return false
+}
 
 // Check token & load user
 export const loadUser = () => (dispatch) => {
@@ -32,16 +38,10 @@ export const loadUser = () => (dispatch) => {
   axios
     .get('/api/get-user', config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      }
+
     })
     .catch((err) => {
+      logOutIfRequestUnauthenticated(err, dispatch)
       dispatch(
         returnErrors(
           err.response.data,
@@ -100,31 +100,24 @@ export const updateProfile = (data) => (dispatch) => {
   axios
     .post('/api/update-profile', body, config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch(
-          noErrors("Yes, you've successfully saved your profile information !")
-        );
-        dispatch({
-          type: UPDATE_PROFILE_SUCCESS,
-          payload: res.data
-        });
-      }
+      dispatch(
+        noErrors("Yes, you've successfully saved your profile information !")
+      );
+      dispatch({
+        type: UPDATE_PROFILE_SUCCESS,
+        payload: res.data
+      });
     })
     .catch((err) => {
-      dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          'UPDATE_PROFILE_FAIL'
-        )
-      );
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+        dispatch(
+          returnErrors(
+            err.response.data,
+            err.response.status,
+            'UPDATE_PROFILE_FAIL'
+          )
+        );
+      }
     });
 };
 
@@ -145,30 +138,22 @@ export const updateProfileImage = (data) => (dispatch) => {
   axios
     .post('/api/update-profile-image', data, config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch(noErrors('Yes, profile image updated successfully !'));
-
-        dispatch({
-          type: UPDATE_PROFILE_IMAGE_SUCCESS,
-          payload: res.data
-        });
-      }
+      dispatch(noErrors('Yes, profile image updated successfully !'));
+      dispatch({
+        type: UPDATE_PROFILE_IMAGE_SUCCESS,
+        payload: res.data
+      });
     })
     .catch((err) => {
-      dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          'UPDATE_PROFILE_IMAGE_FAIL'
-        )
-      );
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+        dispatch(
+          returnErrors(
+            err.response.data,
+            err.response.status,
+            'UPDATE_PROFILE_IMAGE_FAIL'
+          )
+        );
+      }
     });
 };
 
@@ -189,22 +174,15 @@ export const neverAskAgainPermission = (data) => (dispatch) => {
   axios
     .post('/api/never-ask-for-permission', data, config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch({
-          type: NEVER_ASK_FOR_PERMISSION,
-          payload: res.data
-        });
-      }
+      dispatch({
+        type: NEVER_ASK_FOR_PERMISSION,
+        payload: res.data
+      });
     })
     .catch((err) => {
-      console.log(err);
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+        console.log(err);
+      }
     });
 };
 
@@ -225,22 +203,15 @@ export const onUpdateHooks = (data) => (dispatch) => {
   axios
     .post('/api/on-update-hooks', data2, config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch({
-          type: ON_UPDATE_HOOKS,
-          payload: res.data
-        });
-      }
+      dispatch({
+        type: ON_UPDATE_HOOKS,
+        payload: res.data
+      });
     })
     .catch((err) => {
-      console.log(err);
+      if (!logOutIfRequestUnauthenticated(err, dispatch)) {
+        console.log(err);
+      }
     });
 };
 

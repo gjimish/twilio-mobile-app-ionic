@@ -1,15 +1,13 @@
 import axios from 'axios';
-
-import setBasePath from '../utils/setBasePath';
 import setAuthToken from '../utils/setAuthToken';
-
-import { LOGOUT_SUCCESS, FETCH_ACCESS_TOKEN, DISCONNECT_CALL } from './types';
+import setBasePath from '../utils/setBasePath';
+import { logOutIfRequestUnauthenticated } from './authActions';
+import { DISCONNECT_CALL, FETCH_ACCESS_TOKEN } from './types';
 
 //Get acces token
 export const fetchAccessToken = () => (dispatch) => {
   setBasePath();
   setAuthToken();
-
   // Headers
   const config = {
     headers: {
@@ -21,21 +19,13 @@ export const fetchAccessToken = () => (dispatch) => {
   axios
     .get('/api/access-token', config)
     .then((res) => {
-      if (
-        res.data.status !== undefined &&
-        res.data.status === 'Token is Expired'
-      ) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
-      } else {
-        dispatch({
-          type: FETCH_ACCESS_TOKEN,
-          payload: res.data
-        });
-      }
+      dispatch({
+        type: FETCH_ACCESS_TOKEN,
+        payload: res.data
+      });
     })
-    .catch(() => {
+    .catch((err) => {
+      logOutIfRequestUnauthenticated(err, dispatch)
       // dispatch(
       //   returnErrors(err.response.data, err.response.status, 'FETCH_CHAT_FAIL')
       // )

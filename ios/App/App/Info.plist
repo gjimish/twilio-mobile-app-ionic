@@ -56,7 +56,6 @@
 	<string>To Pick Photos from Library</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>

@@ -1,7 +1,10 @@
 import axios from 'axios';
 import qs from 'qs';
+import { useDispatch } from 'react-redux';
+import { logOutIfRequestUnauthenticated } from '../actions/authActions';
 
-const query = ({ url, method = 'get', data }) => {
+function query({ url, method = 'get', data, dispatch }) {
+
   return axios.request({
     url: url,
     method: method.toUpperCase(),
@@ -9,6 +12,10 @@ const query = ({ url, method = 'get', data }) => {
     params: data,
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: 'indices' })
+  }).then(res => {
+    return res
+  }).catch(err => {
+    logOutIfRequestUnauthenticated(err, dispatch)
   });
 };
 

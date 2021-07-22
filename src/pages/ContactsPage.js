@@ -29,6 +29,7 @@ import query from '../utils/query';
 import setAuthToken from '../utils/setAuthToken';
 import setBasePath from '../utils/setBasePath';
 import { filterOutline } from 'ionicons/icons';
+import { useDispatch } from 'react-redux';
 
 const DEBOUNCE_DELAY = 500;
 
@@ -58,6 +59,8 @@ const ContactsPage = () => {
   setBasePath();
   setAuthToken();
   const [currentPage, setCurrentPage] = useState(0);
+  const searchRef = useRef(true);
+  const dispatch = useDispatch();
 
   const [entriesToShow, setEntriesToShow] = useState(15);
   const [searchInput, setSearchInput] = useState('');
@@ -112,7 +115,7 @@ const ContactsPage = () => {
   };
 
   const updateTableState = (response, doAppend) => {
-    if (response.data.status === 'Token is Expired') {
+    if (response.data.status === 'Authorization Token not found') {
       // store.dispatch(logout());  TODO Do we want to do this? Why commented?
       setIsRefreshing(false);
     } else {
@@ -135,7 +138,8 @@ const ContactsPage = () => {
       query({
         url: '/api/contacts-list',
         method: 'get',
-        data: getRequestData(searchInput, currentPage)
+        data: getRequestData(searchInput, currentPage),
+        dispatch: dispatch,
       }).then((response) => {
         updateTableState(response, doAppend);
         resolve();
@@ -147,6 +151,7 @@ const ContactsPage = () => {
     await query({
       url: '/api/sync-current-user-records',
       method: 'get',
+      dispatch: dispatch,
       data: {}
     })
     refreshContactsData();
@@ -207,8 +212,11 @@ const ContactsPage = () => {
           </IonToolbar>
         </IonHeader>
         <IonRow className="ion-align-items-center">
+          <button ref={searchRef} style={{ position: 'absolute', backgroundColor: 'white' }} />
           <IonCol>
-            <IonSearchbar onKeyUp={handleSearchButton} onIonChange={handleSetSearchInput}></IonSearchbar>
+            <IonSearchbar
+              onIonClear={() => { setTimeout(() => { searchRef.current.focus() }, 100) }}
+              onKeyUp={handleSearchButton} onIonChange={handleSetSearchInput}></IonSearchbar>
           </IonCol>
           <IonButton
             color="light"
