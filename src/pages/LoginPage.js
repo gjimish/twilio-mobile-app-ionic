@@ -21,6 +21,7 @@ import {
 } from '@ionic/react';
 import LoginCard from '../components/Login/LoginCard';
 import logo from '../assets/logo.png';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 function LoginPage({
   isAuthenticated,
@@ -173,59 +174,61 @@ function LoginPage({
 
   return (
     <IonPage>
-      <IonContent>
-        <IonGrid style={{ height: '100%' }}>
-          <IonRow
-            style={{
-              height: '20%',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-            <img src={logo} alt="Logo" style={{ width: '200px' }} />
-          </IonRow>
-          <IonRow
-            style={{
-              height: '80%',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-            <IonCol sizeLg="5">
-              <LoginCard
-                isLoading={state.loading}
-                showSync={showSync}
-                isContactsSyncing={state.contactsSync}
-                isLeadsSyncing={state.leadsSync}
-                isMessagesSyncing={state.messagesSync}
-                onDoAuth={onDoAuth}
-              />
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-      <IonAlert
-        isOpen={!!state.msg}
-        onDidDismiss={() => {
-          setState((state) => ({
-            ...state,
-            msg: null,
-            loading: false
-          }));
-        }}
-        header={'Login Error'}
-        message={state.msg}
-        buttons={[
-          {
-            text: 'Ok',
-            handler: () => {
-              setState((state) => ({
-                ...state,
-                msg: null,
-                loading: false
-              }));
+      <ErrorBoundary>
+        <IonContent>
+          <IonGrid style={{ height: '100%' }}>
+            <IonRow
+              style={{
+                height: '20%',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              <img src={logo} alt="Logo" style={{ width: '200px' }} />
+            </IonRow>
+            <IonRow
+              style={{
+                height: '80%',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              <IonCol sizeLg="5">
+                <LoginCard
+                  isLoading={state.loading}
+                  showSync={showSync}
+                  isContactsSyncing={state.contactsSync}
+                  isLeadsSyncing={state.leadsSync}
+                  isMessagesSyncing={state.messagesSync}
+                  onDoAuth={onDoAuth}
+                />
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </IonContent>
+        <IonAlert
+          isOpen={!!state.msg}
+          onDidDismiss={() => {
+            setState((state) => ({
+              ...state,
+              msg: null,
+              loading: false
+            }));
+          }}
+          header={'Login Error'}
+          message={state.msg}
+          buttons={[
+            {
+              text: 'Ok',
+              handler: () => {
+                setState((state) => ({
+                  ...state,
+                  msg: null,
+                  loading: false
+                }));
+              }
             }
-          }
-        ]}
-      />
+          ]}
+        />
+      </ErrorBoundary>
     </IonPage>
   );
 }

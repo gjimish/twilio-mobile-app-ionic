@@ -32,8 +32,7 @@ const LoginCard = (props) => {
           <>
             {' '}
             <p style={{ fontSize: '16px' }}>
-              Syncing Zoho account data. Please do not refresh or leave this
-              page.
+              If this is the first time you are logging in, it will take several minutes to sync as we download all the leads and contacts from your CRM + historical SMS you have sent/received.
             </p>
           </>
         ) : (

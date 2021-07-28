@@ -1,6 +1,6 @@
 {
-  "appId": "io.pwa.twillo",
-  "appName": "Twilio for Zoho CRM",
+  "appId": "co.ethicaltechnology.smoothmessenger",
+  "appName": "Smooth Messenger",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",

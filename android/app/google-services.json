@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "464270970899",
-    "project_id": "twilio-zoho",
-    "storage_bucket": "twilio-zoho.appspot.com"
+    "project_number": "243659082523",
+    "project_id": "smooth-messenger",
+    "storage_bucket": "smooth-messenger.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:464270970899:android:cd4921a1a4dbfeb5c5afe6",
+        "mobilesdk_app_id": "1:243659082523:android:bb4ed207307a5113d6a1be",
         "android_client_info": {
-          "package_name": "io.pwa.twillo"
+          "package_name": "co.ethicaltechnology.smoothmessenger"
         }
       },
       "oauth_client": [
         {
-          "client_id": "464270970899-4v5em4k2jm3c719jqauu7a23ltq3c3m6.apps.googleusercontent.com",
+          "client_id": "243659082523-56d0m11q7sdiif4qgo68ogdeq24c95hm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD0DYpkggMiSSYdJuqPGB8lXdZ-T6gX2Ek"
+          "current_key": "AIzaSyAesM3ttzQIboRNGfDndM6COD9przMgSLE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "464270970899-4v5em4k2jm3c719jqauu7a23ltq3c3m6.apps.googleusercontent.com",
+              "client_id": "243659082523-56d0m11q7sdiif4qgo68ogdeq24c95hm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

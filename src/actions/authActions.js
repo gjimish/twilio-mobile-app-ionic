@@ -17,7 +17,6 @@ export function logOutIfRequestUnauthenticated(error, dispatch) {
     dispatch({
       type: LOGOUT_SUCCESS
     });
-    window.location.pathname = "/Login"
     return true
   }
   return false
