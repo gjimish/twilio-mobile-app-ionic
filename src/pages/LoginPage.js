@@ -46,12 +46,15 @@ function LoginPage({
 
   useEffect(() => {
     // Check for Login error
+    console.log(error)
     if (error.id === 'LOGIN_FAIL') {
       setState((state) => ({
         ...state,
         msg: error.msg.error,
         loading: false
       }));
+    } else if (error.id === 'OTHER_FAIL') {
+      throw Error(JSON.stringify(error))
     } else {
       setState((state) => ({
         ...state,

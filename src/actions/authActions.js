@@ -230,7 +230,6 @@ export const login = ({ email, password, userAlreadyExists }) => (dispatch) => {
   axios
     .post('/api/login', body, config)
     .then((res) => {
-      console.log(res)
       const lastSyncTime = res.data.lastSyncTime;
       const diff = moment().diff(moment(lastSyncTime), 'days');
       if (diff <= 1) {
@@ -246,12 +245,18 @@ export const login = ({ email, password, userAlreadyExists }) => (dispatch) => {
       }
     })
     .catch((err) => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
-      );
-      dispatch({
-        type: LOGIN_FAIL
-      });
+      if (err.response) {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
+        );
+        dispatch({
+          type: LOGIN_FAIL
+        });
+      } else {
+        dispatch(
+          returnErrors(err.msg, 400, 'OTHER_FAIL')
+        );
+      }
     });
 };
 

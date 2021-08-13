@@ -10,6 +10,8 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pusher.pushnotifications.fcm.MessagingService;
 
+import co.ethicaltechnology.smoothmessenger.R;
+
 public class CloudMessagingService extends MessagingService {
     public static final String CHANNEL_ID = "NotificationServiceChannel";
 

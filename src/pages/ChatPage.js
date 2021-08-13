@@ -1,22 +1,22 @@
-import { useState, useEffect, useCallback } from 'react';
+import { IonIcon, IonPage, IonRow, IonText } from '@ionic/react';
+import axios from 'axios';
+import { addCircleOutline, alertCircleOutline } from 'ionicons/icons';
+import uniqBy from 'lodash/uniqBy';
+import Pusher from 'pusher-js';
+import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import { useParams } from 'react-router-dom';
+import { logOutIfRequestUnauthenticated } from '../actions/authActions';
 import {
   fetchChatHistory,
   fetchFromNumbers,
   fetchToNumbers
 } from '../actions/smsActions';
-import { useParams } from 'react-router-dom';
-import Pusher from 'pusher-js';
-import uniqBy from 'lodash/uniqBy';
-import { IonPage } from '@ionic/react';
+import ChatHeader from '../components/Chats/Chat/ChatHeader';
 import ChatInput from '../components/Chats/Chat/ChatInput';
 import ChatViewer from '../components/Chats/Chat/ChatViewer';
-import ChatHeader from '../components/Chats/Chat/ChatHeader';
-import query from '../utils/query';
-import { useHistory } from 'react-router';
-import axios from 'axios';
-import { logOutIfRequestUnauthenticated } from '../actions/authActions';
 
 const deliveryMethods = [
   { label: 'SMS', value: 'sms' },
@@ -226,24 +226,34 @@ function ChatPage() {
           deliveryMethods={deliveryMethods}
         />
         <ChatViewer messages={messages} isLoading={isLoading} />
-        <ChatInput
-          isLoading={isLoading}
-          setMessages={setMessages}
-          contact={contact}
-          messages={messages}
-          toNumber={toNumber}
-          fromNumber={fromNumber}
-          setFromNumber={setFromNumber}
-          fromNumbers={fromNumbers}
-          setToNumber={setToNumber}
-          toNumbers={toNumbers}
-          setDeliveryMethod={setDeliveryMethod}
-          deliveryMethod={deliveryMethod}
-          deliveryMethods={deliveryMethods}
-          refetchChat={refetchChat}
-        />
-      </div>
-    </IonPage>
+        {fromNumbers.length == 0 && !isLoading ? <div style={{
+          backgroundColor: '#ffcc0066', padding: 10,
+          display: 'flex', flexDirection: 'row'
+        }}>
+          <IonIcon icon={alertCircleOutline} style={{ marginRight: 10 }} />
+          <IonText style={{ fontSize: 14, flex: 1 }}>
+            You can't send messages as you don't have access to any Twilio from numbers.
+            Please ask your administrator to grant access to a from number in the CRM.</IonText>
+        </div> :
+          <ChatInput
+            isLoading={isLoading}
+            setMessages={setMessages}
+            contact={contact}
+            messages={messages}
+            toNumber={toNumber}
+            fromNumber={fromNumber}
+            setFromNumber={setFromNumber}
+            fromNumbers={fromNumbers}
+            setToNumber={setToNumber}
+            toNumbers={toNumbers}
+            setDeliveryMethod={setDeliveryMethod}
+            deliveryMethod={deliveryMethod}
+            deliveryMethods={deliveryMethods}
+            refetchChat={refetchChat}
+          />
+        }
+      </div >
+    </IonPage >
   );
 }
 

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useQuery } from 'react-query';
-import { matchSorter } from 'match-sorter';
+import { Capacitor, Plugins } from '@capacitor/core';
+import { AppVersion } from '@ionic-native/app-version';
 import {
   IonButton,
   IonCheckbox,
@@ -36,18 +35,6 @@ import ChatsRowItem from '../components/Chats/ChatsRowItem';
 import ItemRowSkeleton from '../components/ItemRowSkeletons';
 import PullToRefresh from '../components/PullToRefresh';
 import './Popover.css';
-import { useIonRouter } from '@ionic/react';
-import { Capacitor, Plugins } from '@capacitor/core';
-import query from '../utils/query';
-import axios from 'axios';
-import { version } from '../../package.json';
-
-import * as Sentry from '@sentry/browser';
-import { Integrations } from '@sentry/tracing';
-import { AppVersion } from '@ionic-native/app-version';
-import { environment } from '../environments/environment';
-
-const { App, Keyboard } = Plugins;
 
 
 const { App, Keyboard } = Plugins;
