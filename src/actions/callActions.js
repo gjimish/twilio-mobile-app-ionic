@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import setBasePath from '../utils/setBasePath';
@@ -11,10 +12,10 @@ export const fetchAccessToken = () => (dispatch) => {
   // Headers
   const config = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'operating_system': Capacitor.platform
     }
   };
-
   // Request body
   axios
     .get('/api/access-token', config)

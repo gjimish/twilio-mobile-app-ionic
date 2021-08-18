@@ -1,11 +1,12 @@
 import { IonIcon, IonSpinner, IonImg, IonModal, IonButton } from '@ionic/react';
 import { checkmarkDoneOutline, closeCircle, closeCircleOutline } from 'ionicons/icons';
+import moment from 'moment';
 import { forwardRef, useState } from 'react';
 import { safelyParseJSON } from '../../SafelyParseJson';
 import './Message.css';
 
 const Message = forwardRef(
-  ({ contents: { created_at, direction, body, isSending, mms_content } }, ref) => {
+  ({ contents: { created_at, timestamp, direction, body, isSending, mms_content } }, ref) => {
     const [fullImageModal, showFullImage] = useState(false);
     const [image, setImage] = useState("");
 
@@ -46,9 +47,12 @@ const Message = forwardRef(
           <div>
             {mms_content && mms_content instanceof Array && mms_content.length > 0 ?
               mms_content.map(image => {
-                return <img
-                  onClick={() => showImage(image)}
-                  style={{ height: 200, marginLeft: 5 }} key={image} src={image} />
+                return <div>
+                  <img
+                    onClick={() => showImage(image)}
+                    style={{ height: 200, marginLeft: 5 }} key={image} src={image} />
+                  <p>{body} </p>
+                </div>
               })
               : <p>{body} </p>}
           </div>
@@ -63,7 +67,7 @@ const Message = forwardRef(
           )}
         </section>
         <small className={`message__date ${direction === 'outbound' && 'message__date__outbound'}`}>
-          {new Date(Date.parse(created_at)).toLocaleString()}
+          {moment(timestamp).format('L')}
         </small>
       </div>
     );

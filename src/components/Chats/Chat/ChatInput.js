@@ -14,6 +14,8 @@ import { addCircleOutline, arrowUndoOutline, arrowUpOutline, attach, closeCircle
 import { useRef, useState } from 'react';
 import { sendSMS } from '../../../actions/smsActions';
 import ChatRepliesPopover from './ChatRepliesPopover';
+import { useDispatch } from 'react-redux';
+import { LOGOUT_SUCCESS } from '../../../actions/types';
 
 const ENTER_KEYCODE = 13;
 
@@ -46,6 +48,7 @@ const ChatInput = (props) => {
     showPopover: false,
     event: undefined
   });
+  const dispatch = useDispatch();
 
   const [quickRepliesPopoverState, setShowQuickRepliesPopover] = useState({
     showQuickRepliesPopover: false,
@@ -276,14 +279,21 @@ const ChatInput = (props) => {
             setErrorMessage('');
           }}
           header={'Sending SMS Error'}
-          message={errorMessage}
+          message={errorMessage + "<br /><br /> Quite often these errors are resolved by logging out and logging back in."}
           buttons={[
             {
-              text: 'Ok',
+              text: 'Logout',
+              handler: () => {
+                dispatch({
+                  type: LOGOUT_SUCCESS
+                });
+              }
+            }, {
+              text: 'Ignore error',
               handler: () => {
                 setErrorMessage('');
               }
-            }
+            },
           ]}
         />
         <IonAlert

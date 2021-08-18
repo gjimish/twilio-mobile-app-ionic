@@ -123,6 +123,7 @@ export default function auth(state = initialState, action) {
       } catch (e) {
         // ignore error. Maybe they're using brave
       }
+      window.location = "/Login"
       return {
         ...state,
         token: null,
