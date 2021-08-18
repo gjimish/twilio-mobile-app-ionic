@@ -81,7 +81,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "ios": "ionic cap run ios --external -l",
-    "start": "react-scripts start",
+    "start": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "android": "ionic cap run android -l --external",
