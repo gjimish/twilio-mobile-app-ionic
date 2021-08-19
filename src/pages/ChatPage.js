@@ -112,8 +112,8 @@ function ChatPage() {
 
   const sortChat = useCallback((chat) => {
     return chat?.sort((date1, date2) => {
-      const dateA = new Date(date1.created_at);
-      const dateB = new Date(date2.created_at);
+      const dateA = new Date(date1.timestamp);
+      const dateB = new Date(date2.timestamp);
       return dateA.valueOf() - dateB.valueOf();
     });
   }, []);

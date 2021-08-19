@@ -67,7 +67,7 @@ const ChatHeader = (props) => {
         <IonButtons slot="start">
           <IonBackButton text="" defaultHref="/Dashboard/chat"></IonBackButton>
         </IonButtons>
-        <IonTitle mode="md" style={{ paddingLeft: Capacitor.getPlatform() === 'android' ? 0 : 30, padding: 0 }} >
+        <IonTitle mode="md" style={{ padding: 0, paddingLeft: Capacitor.getPlatform() === 'android' ? 0 : 10 }} >
           {isLoading ? (
             <IonSkeletonText
               animated
@@ -98,12 +98,12 @@ const ChatHeader = (props) => {
             <IonLabel style={{ fontSize: 8 }}>No Reply<br />Needed</IonLabel>
           </IonButton>
 
-          <IonButton
+          {/* <IonButton
             fill="clear"
             size="small"
             onClick={() => { console.log(); }}>
             <IonIcon size="large" icon={callOutline} />
-          </IonButton>
+          </IonButton> */}
 
           <IonButton
             fill="clear"

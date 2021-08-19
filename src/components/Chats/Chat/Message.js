@@ -67,7 +67,7 @@ const Message = forwardRef(
           )}
         </section>
         <small className={`message__date ${direction === 'outbound' && 'message__date__outbound'}`}>
-          {moment(timestamp).format('L')}
+          {moment(timestamp).isSame(new Date(), 'date') ? moment(timestamp).format('LT') : moment(timestamp).format('LLL')}
         </small>
       </div>
     );
