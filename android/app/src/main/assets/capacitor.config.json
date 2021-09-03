@@ -1,17 +1,17 @@
 {
-  "appId": "co.ethicaltechnology.smoothmessenger",
-  "appName": "Smooth Messenger",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "build",
-  "plugins": {
-    "SplashScreen": {
-      "launchShowDuration": 2000
-    }
-  },
-  "server": {
-    "cleartext": true
-  },
-  "cordova": {},
-  "linuxAndroidStudioPath": "/home/ajay/android-studio/bin/studio.sh"
+	"appId": "co.ethicaltechnology.smoothmessenger",
+	"appName": "Smooth Messenger",
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "build",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 2000
+		}
+	},
+	"server": {
+		"cleartext": true
+	},
+	"cordova": {},
+	"linuxAndroidStudioPath": "/home/ajay/android-studio/bin/studio.sh"
 }

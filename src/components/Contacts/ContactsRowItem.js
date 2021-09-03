@@ -47,7 +47,7 @@ const ContactsRowItem = (props) => {
         {contact.crm_company_name && <div>{getHighlightedText(contact.crm_company_name)}</div>}
         {contact.to_number && <div>{getHighlightedText(contact.to_number.join(', '))}</div>}
       </IonLabel>
-      <IonBadge>{contact.type && contact.type.slice(0, -1)}</IonBadge>
+      <IonBadge>{contact.crm_module_name && contact.crm_module_name.slice(0, -1)}</IonBadge>
     </IonItem>
   );
 };

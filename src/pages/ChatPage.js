@@ -122,8 +122,13 @@ function ChatPage() {
     const pusher = new Pusher('0f860d00d0bd2d8f3e73', {
       cluster: 'us2'
     });
+    pusher.logToConsole = true;
     const channel = pusher.subscribe('incomming-channel');
-    channel.bind('chat-event', (data) => {
+    channel.bind('pusher:subscription_succeeded', function (members) {
+      console.log('successfully subscribed!');
+    });
+    channel.bind('chat-event', function (data) {
+      console.log("chat-event", data)
       if (id && data.contact_id === parseInt(id)) {
         setMessages((currentMessages) => {
           const isExistingMessage = currentMessages.filter(

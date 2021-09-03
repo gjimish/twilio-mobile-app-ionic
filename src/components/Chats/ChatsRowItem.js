@@ -20,7 +20,7 @@ const ChatsRowItem = (props) => {
         <h1>
           {props.message.first_name} {props.message.last_name}
         </h1>
-        <IonBadge>{props.message.type.slice(0, -1)}</IonBadge>
+        <IonBadge>{props.message.crm_module_name && props.message.crm_module_name.slice(0, -1)}</IonBadge>
         <p>{props.message.recent_message && props.message.recent_message.body != "null" && props.message.recent_message.body}</p>
       </IonLabel>
 

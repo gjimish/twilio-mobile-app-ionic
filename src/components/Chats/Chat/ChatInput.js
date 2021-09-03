@@ -16,6 +16,7 @@ import { sendSMS } from '../../../actions/smsActions';
 import ChatRepliesPopover from './ChatRepliesPopover';
 import { useDispatch } from 'react-redux';
 import { LOGOUT_SUCCESS } from '../../../actions/types';
+import { v4 as uuidv4 } from 'uuid';
 
 const ENTER_KEYCODE = 13;
 
@@ -139,6 +140,7 @@ const ChatInput = (props) => {
         send_to: deliveryMethod === 'whatsapp' ? `whatsapp:${to}` : to,
         send_sms_text: messageToSend,
         contact_id: contact.id,
+        messageUUID: uuidv4(),
         image_urls: images,
         from_number:
           deliveryMethod === 'whatsapp' ? `whatsapp:${fromNumber}` : fromNumber

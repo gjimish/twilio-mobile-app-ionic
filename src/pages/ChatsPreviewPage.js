@@ -49,7 +49,7 @@ const ChatsPage = () => {
     event: undefined
   });
   const [conversationsFilter, setConversationsFilter] = useState({
-    filterMode: 'unreplied',
+    filterMode: 'just-mine',
     showLeads: true,
     showContacts: true,
     showDeals: true,
@@ -201,13 +201,30 @@ const ChatsPage = () => {
                 }));
               }}>
               <IonSegmentButton value="most-recently-touched">
-                <IonLabel>no filter</IonLabel>
+                <IonLabel>NO FILTER</IonLabel>
               </IonSegmentButton>
               <IonSegmentButton value="unreplied">
-                <IonLabel>reply</IonLabel>
+                <IonLabel>REPLY</IonLabel>
               </IonSegmentButton>
               <IonSegmentButton value="follow-up">
-                <IonLabel>follow up</IonLabel>
+                <IonLabel>FOLLOW UP</IonLabel>
+              </IonSegmentButton>
+            </IonSegment>
+          </IonItem>
+          <IonItem lines="none">
+            <IonSegment
+              value={conversationsFilter.filterMode}
+              onIonChange={(e) => {
+                setConversationsFilter((prevState) => ({
+                  ...prevState,
+                  filterMode: e.detail.value
+                }));
+              }}>
+              <IonSegmentButton value="all-messages">
+                <IonLabel>ALL MESSAGES</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="just-mine">
+                <IonLabel>JUST MINE</IonLabel>
               </IonSegmentButton>
             </IonSegment>
           </IonItem>

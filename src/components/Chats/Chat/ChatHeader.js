@@ -9,8 +9,8 @@ import {
 } from '@ionic/react';
 import { callOutline, checkmark, ellipsisVerticalOutline } from 'ionicons/icons';
 import { useState } from 'react';
+import { useHistory } from 'react-router';
 import ChatSettingsPopover from './ChatSettingsPopover';
-// import { CordovaPluginTwilioVoiceSdk } from '@ionic-native/cordova-plugin-twiliovoicesdk'
 
 const ChatHeader = (props) => {
   const {
@@ -28,24 +28,7 @@ const ChatHeader = (props) => {
     deliveryMethods,
     onClose
   } = props;
-
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTS2ZhYjcwMGIyNmM5MDI1ZWU5ODUwNTMzMmRhNTYwNzc1LTE2MjY0MTk0ODAiLCJncmFudHMiOnsiaWRlbnRpdHkiOiJzZGZkc2Zkc2YiLCJ2b2ljZSI6eyJvdXRnb2luZyI6eyJhcHBsaWNhdGlvbl9zaWQiOiJBUDRjMTJlMGIzMmM1ZmY5MjQxMWQzOTRiMzJhZWNjYTg5In0sInB1c2hfY3JlZGVudGlhbF9zaWQiOiJDUjY1MTU2MzE0OGVhM2U3MjI5YjcyMzhmN2NiOGJjMmQ3In19LCJpYXQiOjE2MjY0MTk0ODAsImV4cCI6MTYyNjQyMzA4MCwiaXNzIjoiU0tmYWI3MDBiMjZjOTAyNWVlOTg1MDUzMzJkYTU2MDc3NSIsInN1YiI6IkFDYTkzZTc3N2FkZTBkMWNmM2Y4ZDliMWNhMTk0NDU1OTcifQ.wiqQDgkHBooesQ_MLcerhYTksEQMUQE6YwFh30kT0LE";
-  const [target, setTarget] = useState('+917696290454');
-
-  // let cordovaTwilioSDkObject = CordovaPluginTwilioVoiceSdk.create();
-  // cordovaTwilioSDkObject.load();
-  // let Twilio = window.Twilio;
-  // if (!Twilio) {
-  //   alert("No twilio");
-  //   throw new Error("Twilio plugin load failure");
-  // }
-  // Twilio.TwilioVoiceClient.initialize(token);
-
-  // Twilio.TwilioVoiceClient.clientinitialized(function () {
-  //   console.log("init success!");
-  //   alert("Ready to start call")
-  //   //$('#statusMessage').text('Ready to start call');
-  // });
+  let history = useHistory();
 
   const [popoverState, setShowPopover] = useState({
     showPopover: false,
@@ -59,6 +42,12 @@ const ChatHeader = (props) => {
 
   const handleCrmLink = (e) => {
     setOpenZohoPopover({ showPopover: true, event: e });
+  }
+
+  const makeCall = () => {
+    // let callTo = Capacitor.getPlatform() == 'ios' ? { "to": toNumber } : toNumber
+    // Twilio.TwilioVoiceClient.call(token, callTo);
+    history.push(`/call/${toNumber}`);
   }
 
   return (
@@ -98,12 +87,12 @@ const ChatHeader = (props) => {
             <IonLabel style={{ fontSize: 8 }}>No Reply<br />Needed</IonLabel>
           </IonButton>
 
-          {/* <IonButton
+          {/* {Capacitor.isNative && <IonButton
             fill="clear"
             size="small"
-            onClick={() => { console.log(); }}>
+            onClick={makeCall}>
             <IonIcon size="large" icon={callOutline} />
-          </IonButton> */}
+          </IonButton>} */}
 
           <IonButton
             fill="clear"

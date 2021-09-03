@@ -11,7 +11,8 @@ import {
   UPDATE_PROFILE_IMAGE_SUCCESS,
   LOGIN_TEMP,
   NEVER_ASK_FOR_PERMISSION,
-  ON_UPDATE_HOOKS
+  ON_UPDATE_HOOKS,
+  REMOVE_AUTH_ERROR
 } from '../actions/types';
 
 // localStorage.removeItem('token');
@@ -24,6 +25,9 @@ const initialState = {
   isAuthenticated: localStorage.getItem('isAuthenticated')
     ? localStorage.getItem('isAuthenticated')
     : false,
+  showAuthError: localStorage.getItem('showAuthError')
+    ? localStorage.getItem('showAuthError')
+    : "false",
   zoho_user_role: localStorage.getItem('zoho_user_role'),
   webhook_permission: localStorage.getItem('webhook_permission'),
   isLoading: false,
@@ -110,6 +114,17 @@ export default function auth(state = initialState, action) {
         user: action.payload.user
       };
     case AUTH_ERROR:
+      localStorage.setItem('showAuthError', "true")
+      return {
+        ...state,
+        showAuthError: "true",
+      };
+    case REMOVE_AUTH_ERROR:
+      localStorage.setItem('showAuthError', "false")
+      return {
+        ...state,
+        showAuthError: "false",
+      };
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
@@ -118,6 +133,7 @@ export default function auth(state = initialState, action) {
       localStorage.removeItem('user');
       localStorage.removeItem('zoho_user_role');
       localStorage.removeItem('webhook_permission');
+      localStorage.removeItem('showAuthError')
       try {
         localStorage.clear();
       } catch (e) {
@@ -129,6 +145,7 @@ export default function auth(state = initialState, action) {
         token: null,
         user: null,
         isAuthenticated: false,
+        showAuthError: "false",
         isLoading: false,
         showSync: false
       };

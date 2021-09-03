@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { IonRouterOutlet } from '@ionic/react';
+import { IonRouterOutlet, useIonAlert } from '@ionic/react';
 import { ClimbingBoxLoader } from 'react-spinners';
 import { useSelector } from 'react-redux';
 import Tabs from './components/Tabs';
@@ -11,6 +11,8 @@ import PushNotificationWrapper from './components/PushNotificationWrapper';
 import DialPage from './pages/DialPage';
 import AddQuickReply from './pages/AddQuickReply';
 import EditQuickReply from './pages/EditQuickReply';
+import CallPage from './pages/CallPage';
+import AuthErrorWrapper from './components/AuthErrorWrapper';
 
 const Routes = () => {
   const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -35,6 +37,7 @@ const Routes = () => {
           {isAuthenticated ? (
             <>
               <PushNotificationWrapper />
+              <AuthErrorWrapper />
               <Switch>
                 <Redirect from="/Login" to="/Dashboard/chat" />
                 <Redirect from="/" exact to="/Dashboard/chat" />
@@ -47,6 +50,9 @@ const Routes = () => {
                 </Route>
                 <Route exact path="/dial">
                   <DialPage />
+                </Route>
+                <Route exact path="/call/:toNumber">
+                  <CallPage />
                 </Route>
                 <Route exact path="/addreply">
                   <AddQuickReply />

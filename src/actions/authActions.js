@@ -4,6 +4,7 @@ import setAuthToken from '../utils/setAuthToken';
 import setBasePath from '../utils/setBasePath';
 import { noErrors, returnErrors } from './errorActions';
 import {
+  AUTH_ERROR,
   LOGIN_FAIL, LOGIN_SUCCESS, LOGIN_TEMP, LOGOUT_SUCCESS, NEVER_ASK_FOR_PERMISSION,
   ON_UPDATE_HOOKS, REGISTER_FAIL, REGISTER_SUCCESS, UPDATE_PROFILE_IMAGE_SUCCESS, UPDATE_PROFILE_SUCCESS
 } from './types';
@@ -11,11 +12,12 @@ import {
 
 export function logOutIfRequestUnauthenticated(error, dispatch) {
   if (
+    error.response &&
     error.response.status !== undefined &&
     error.response.status === 401
   ) {
     dispatch({
-      type: LOGOUT_SUCCESS
+      type: AUTH_ERROR
     });
     return true
   }
