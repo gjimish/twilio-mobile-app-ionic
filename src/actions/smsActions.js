@@ -26,7 +26,7 @@ export const fetchChatHistory = (id) => {
 export const fetchRecentConversations = (props) => {
   setBasePath();
   setAuthToken();
-  const { filterMode, perPage, pageNum, newestFirst } = props.queryKey[1];
+  const { filterMode, perPage, pageNum, newestFirst, userFilters } = props.queryKey[1];
   // Headers
   const config = {
     headers: {
@@ -36,7 +36,7 @@ export const fetchRecentConversations = (props) => {
 
   // Request body
   return axios.get(
-    `/api/recent-conversations?mode=${filterMode}&per_page=${perPage}&page=${pageNum}&latest_to_oldest=${newestFirst}`,
+    `/api/recent-conversations?mode=${filterMode}&per_page=${perPage}&page=${pageNum}&latest_to_oldest=${newestFirst}&filter=${userFilters}`,
     config
   );
 };

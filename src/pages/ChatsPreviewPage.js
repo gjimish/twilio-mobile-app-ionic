@@ -49,7 +49,8 @@ const ChatsPage = () => {
     event: undefined
   });
   const [conversationsFilter, setConversationsFilter] = useState({
-    filterMode: 'just-mine',
+    filterMode: 'unreplied',
+    userFilters: 'just-mine',
     showLeads: true,
     showContacts: true,
     showDeals: true,
@@ -213,11 +214,11 @@ const ChatsPage = () => {
           </IonItem>
           <IonItem lines="none">
             <IonSegment
-              value={conversationsFilter.filterMode}
+              value={conversationsFilter.userFilters}
               onIonChange={(e) => {
                 setConversationsFilter((prevState) => ({
                   ...prevState,
-                  filterMode: e.detail.value
+                  userFilters: e.detail.value
                 }));
               }}>
               <IonSegmentButton value="all-messages">
