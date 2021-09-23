@@ -186,7 +186,7 @@ function LoginPage({
                 justifyContent: 'center',
                 alignItems: 'center'
               }}>
-              <img src={logo} alt="Logo" style={{ width: '200px' }} />
+              <img src={logo} alt="Logo" style={{ width: '300px' }} />
             </IonRow>
             <IonRow
               style={{
